@@ -1,0 +1,10 @@
+compilar_coatl{
+	#Declaración de variable entera
+	E_ varEnt : 65;
+	#Ejemplo de estructura de desición
+	decide (varEnt > 70) : {
+
+		#Código a ejecutar si la condición es verdadera
+	}
+
+}ejecutar_coatl

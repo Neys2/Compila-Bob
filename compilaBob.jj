@@ -1,0 +1,198 @@
+options { 
+	JAVA_UNICODE_ESCAPE = true; 
+	KEEP_LINE_COLUMN = true; 
+	STATIC = false; 
+
+} 
+
+ 
+
+ 
+
+PARSER_BEGIN(CompilaBob) 
+ 
+
+public class CompilaBob {  
+	String errormsg="\n";  
+	public static void main(String args[])  { 
+		CompilaBob compilador = new CompilaBob(System.in); 
+		try { 
+			compilador.start(); 
+		}catch( Exception e ){   
+			System.out.println( "Expresión no válida" );
+		}catch( TokenMgrError e ) { 
+			System.out.println( "Error de Token" );
+		} 
+		System.out.println(compilador.errormsg);
+		System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+	}    
+}   
+
+ 
+
+PARSER_END(CompilaBob)   
+
+SKIP :   
+
+{  
+	< " " | "\t" | "\r" | "\n" | "\r\n" >  //White space
+	| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >  //Single-line comments
+	| <"##"(~["/"])*  "#""#" >  //Multi-line comments
+
+}  
+
+TOKEN:   
+{   
+
+<INICIO: "compilar_coatl"> {System.out.println("INICIO  --> "+image);}  
+|<FIN: "ejecutar_coatl">  {System.out.println("FIN  --> "+image);}  
+|<IF: "decide"> {System.out.println("IF  --> "+image+"\r\n");}  
+|<ELSE: "sino"> {System.out.println("ELSE  --> "+image+"\r\n");}  
+|<CicloIterado: "repito hasta que">{System.out.println("CICLO ITERADO  --> "+image+"\r\n");}  
+|<CicloLimit: "repito"> {System.out.println("CICLO LIMITE --> "+image+"\r\n");}
+|<CicloWhile: "mientras"> {System.out.println("CICLO WHILE --> "+image+"\r\n");} 
+|<ESCRIBIR: "muestra">{System.out.println("PRINT --> "+image+"\r\n");}
+|<LEER:"recibir">{System.out.println("SCAN_DATA --> "+image+"\r\n");} 
+
+}  
+
+TOKEN:   
+
+{   
+<ParenIzq: "("> {System.out.println("Parentesis Izquierdo --> "+image);} 
+|<ParenDer: ")"> {System.out.println("Parentesis Derecho --> "+image);}
+|<SepIzq: "{"> {System.out.println("Delimitador Izquierdo --> "+image);} 
+|<SepDer: "}"> {System.out.println("Delimitador Derecho --> "+image);} 
+|<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);} 
+|<SepParametro: ","> {System.out.println("Separador de parametros --> "+image);}
+
+}  
+
+TOKEN:  
+
+{  
+
+<ASIGNACION: ":"> {System.out.println("Asignacion de valor -->"+image);}
+|<MENOR: "<"> {System.out.println("MENOR QUE --> "+image);} 
+|<MAYOR: ">"> {System.out.println("MAYOR QUE --> "+image);}
+|<MENOR_IGUAL: "<="> {System.out.println("MENOR O IGUAL -->"+image);}
+|<MAYOR_IGUAL: ">="> {System.out.println("MAYOR O IGUAL -->"+image);}
+|<IGUALDAD: "="> {System.out.println("IGUAL --> "+image);}
+|<OR: "|"> {System.out.println("OR --> "+image);} 
+|<AND: "&"> {System.out.println("AND --> "+image);}
+|<NOT: "!="> {System.out.println("NOT --> "+image);}
+|<MAS: "+"> {System.out.println("SIGNO MAS --> "+image);} 
+|<MENOS: "-"> {System.out.println("SIGNO MENOS --> "+image);}
+|<DIV: "/"> {System.out.println("SIGNO DIVISION --> "+image);} 
+|<MODULO: "%"> {System.out.println("SIGNO MODULO --> "+image);} 
+|<MULTI: "*"> {System.out.println("SIGNO MULTIPLICACION --> "+image);}
+
+}   
+// [("E_")(["a"-"z"|"A"-"Z"|"_"|"0"-"9"])+]  
+
+//"E_"(["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*)  
+
+ 
+
+// NOT ~ 
+
+TOKEN: 
+{
+	<CADENAS: ("\""(~["\"","#","\n","\r","#","#","\r","\n"])*"\"")>{System.out.println("CADENA DE TEXTO --> "+image+"\r\n");}
+}
+
+TOKEN: 
+
+{ 
+
+<ENTERO: "E_">{System.out.println("ENTERO --> "+image+"\r\n");} 
+|<FLOTANTE: "D_">{System.out.println("FLOAT/DECIMAL --> "+image+"\r\n");} 
+|<NUMERO: (["0"-"9"])+>{System.out.println("NUMERO ENTERO --> "+image+"\r\n");}  
+|<NUMDECIMAL: (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+>{System.out.println("NUMERO DECIMAL --> "+image+"\r\n");} 
+|<ID_CADENA: "C_">{System.out.println("STRING --> "+image+"\r\n");} 
+|<BOOLEANO: "L_">{System.out.println("BOOLEANO --> "+image+"\r\n");} 
+|<EST_LOGIC:("falso"|"verdad")>{System.out.println("ESTADO LOGICO --> "+image+"\r\n");} 
+|<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>{System.out.println("IDENTIFICADOR --> "+image+"\r\n");} 
+
+}   
+
+// |<COMILLAS:"\"">{System.out.println("COMILLAS  --> "+image+"\r\n");}  
+
+// | ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"," "])* 
+
+  
+
+TOKEN: 
+
+{ 
+	<UNKNOW : ~[]>
+}
+
+void start():  
+
+{}  
+
+{  
+
+<INICIO>(  
+<IF>  
+|<ELSE>  
+|<CicloIterado>  
+|<CicloLimit>  
+|<CicloWhile>  
+|<ESCRIBIR>  
+|<LEER>  
+|<ParenIzq>  
+|<ParenDer>  
+|<SepIzq>  
+|<SepDer>  
+|<PuntoComa>  
+|<SepParametro>  
+|<ASIGNACION>  
+|<MENOR>  
+|<MAYOR>  
+|<MENOR_IGUAL>  
+|<MAYOR_IGUAL> 
+|<IGUALDAD> 
+|<OR>
+|<AND>
+|<NOT>
+|<MAS>
+|<MENOS> 
+|<DIV>
+|<MODULO>  
+|<MULTI>  
+|<ENTERO>  
+|<FLOTANTE>  
+|<NUMERO>  
+|<NUMDECIMAL>  
+|<CADENAS>  
+|<ID_CADENA>  
+|<BOOLEANO>  
+|<EST_LOGIC>
+|<IDENTIFICADOR>
+|error())
++<FIN><EOF>  
+
+ 
+
+}  
+
+void error():  
+
+{
+	String errores = " "; 
+	int linea, colum; 
+	Token t;
+} 
+
+{  
+	t = <UNKNOW> 
+{ 
+	linea = t.beginLine;
+	colum = t.endColumn; 
+	errores = "Simbolo: " + t.image + " no reconocido en la línea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n"; 
+	errormsg = errormsg+errores; 
+} 
+} 
+
