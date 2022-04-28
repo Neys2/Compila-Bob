@@ -4,184 +4,218 @@ public class CompilaBob implements CompilaBobConstants {
         public static void main(String args[])  {
                 CompilaBob compilador = new CompilaBob(System.in);
                 try {
-                        compilador.start();
+                        compilador.Codigo();
                 }catch( Exception e ){
-                        System.out.println( "Expresi\u00f3n no v\u00e1lida" );
+                        System.out.println( "Expresi\u00c3\u00b3n no v\u00c3\u00a1lida" );
                 }catch( TokenMgrError e ) {
                         System.out.println( "Error de Token" );
                 }
                 System.out.println(compilador.errormsg);
-                System.out.println("An\u00e1lisis L\u00e9xico ejecutado con \u00e9xito ! :D ---------------");
+                System.out.println("An\u00c3\u00a1lisis L\u00c3\u00a9xico ejecutado con \u00c3\u00a9xito ! :D ---------------");
+                // System.out.println("An"+"á"+"lisis l"+"é"+"xico ejecutado con "+"é"+"xito");  
         }
 
-  final public void start() throws ParseException {
+  final public void Codigo() throws ParseException {
     jj_consume_token(INICIO);
+    jj_consume_token(SepIzq);
+    Cuerpo();
+    jj_consume_token(ParenDer);
+    jj_consume_token(FIN);
+    jj_consume_token(0);
+  }
+
+  final public void Cuerpo() throws ParseException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IF:
-        jj_consume_token(IF);
-        break;
-      case ELSE:
-        jj_consume_token(ELSE);
-        break;
-      case CicloIterado:
-        jj_consume_token(CicloIterado);
-        break;
-      case CicloLimit:
-        jj_consume_token(CicloLimit);
-        break;
-      case CicloWhile:
-        jj_consume_token(CicloWhile);
-        break;
-      case ESCRIBIR:
-        jj_consume_token(ESCRIBIR);
-        break;
-      case LEER:
-        jj_consume_token(LEER);
-        break;
-      case ParenIzq:
-        jj_consume_token(ParenIzq);
-        break;
-      case ParenDer:
-        jj_consume_token(ParenDer);
-        break;
-      case SepIzq:
-        jj_consume_token(SepIzq);
-        break;
-      case SepDer:
-        jj_consume_token(SepDer);
-        break;
-      case PuntoComa:
-        jj_consume_token(PuntoComa);
-        break;
-      case SepParametro:
-        jj_consume_token(SepParametro);
-        break;
-      case ASIGNACION:
-        jj_consume_token(ASIGNACION);
-        break;
-      case MENOR:
-        jj_consume_token(MENOR);
-        break;
-      case MAYOR:
-        jj_consume_token(MAYOR);
-        break;
-      case MENOR_IGUAL:
-        jj_consume_token(MENOR_IGUAL);
-        break;
-      case MAYOR_IGUAL:
-        jj_consume_token(MAYOR_IGUAL);
-        break;
-      case IGUALDAD:
-        jj_consume_token(IGUALDAD);
-        break;
-      case OR:
-        jj_consume_token(OR);
-        break;
-      case AND:
-        jj_consume_token(AND);
-        break;
-      case NOT:
-        jj_consume_token(NOT);
-        break;
-      case MAS:
-        jj_consume_token(MAS);
-        break;
-      case MENOS:
-        jj_consume_token(MENOS);
-        break;
-      case DIV:
-        jj_consume_token(DIV);
-        break;
-      case MODULO:
-        jj_consume_token(MODULO);
-        break;
-      case MULTI:
-        jj_consume_token(MULTI);
-        break;
-      case ENTERO:
-        jj_consume_token(ENTERO);
-        break;
-      case FLOTANTE:
-        jj_consume_token(FLOTANTE);
-        break;
-      case NUMERO:
-        jj_consume_token(NUMERO);
-        break;
-      case NUMDECIMAL:
-        jj_consume_token(NUMDECIMAL);
-        break;
-      case CADENAS:
-        jj_consume_token(CADENAS);
-        break;
-      case ID_CADENA:
-        jj_consume_token(ID_CADENA);
-        break;
-      case BOOLEANO:
-        jj_consume_token(BOOLEANO);
-        break;
-      case EST_LOGIC:
-        jj_consume_token(EST_LOGIC);
-        break;
-      case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
-        break;
-      case UNKNOW:
-        error();
-        break;
-      default:
-        jj_la1[0] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IF:
-      case ELSE:
-      case CicloIterado:
-      case CicloLimit:
-      case CicloWhile:
-      case ESCRIBIR:
-      case LEER:
-      case ParenIzq:
-      case ParenDer:
-      case SepIzq:
-      case SepDer:
-      case PuntoComa:
-      case SepParametro:
-      case ASIGNACION:
-      case MENOR:
-      case MAYOR:
-      case MENOR_IGUAL:
-      case MAYOR_IGUAL:
-      case IGUALDAD:
-      case OR:
-      case AND:
-      case NOT:
-      case MAS:
-      case MENOS:
-      case DIV:
-      case MODULO:
-      case MULTI:
-      case CADENAS:
       case ENTERO:
       case FLOTANTE:
-      case NUMERO:
-      case NUMDECIMAL:
       case ID_CADENA:
       case BOOLEANO:
-      case EST_LOGIC:
       case IDENTIFICADOR:
       case UNKNOW:
         ;
         break;
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[0] = jj_gen;
         break label_1;
       }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ENTERO:
+      case FLOTANTE:
+      case ID_CADENA:
+      case BOOLEANO:
+      case IDENTIFICADOR:
+        sentencias();
+        break;
+      case UNKNOW:
+        error();
+        break;
+      default:
+        jj_la1[1] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
-    jj_consume_token(FIN);
-    jj_consume_token(0);
+  }
+
+  final public void sentencias() throws ParseException {
+    if (jj_2_1(3)) {
+      Declaracion();
+      jj_consume_token(PuntoComa);
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IDENTIFICADOR:
+        Asignacion();
+        jj_consume_token(PuntoComa);
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+  }
+
+  final public void Declaracion() throws ParseException {
+    Variable_dato();
+    Asignacion();
+  }
+
+  final public void Asignacion() throws ParseException {
+    if (jj_2_2(3)) {
+      jj_consume_token(IDENTIFICADOR);
+      jj_consume_token(ASIGNACION);
+      Expresion();
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IDENTIFICADOR:
+        jj_consume_token(IDENTIFICADOR);
+        jj_consume_token(ASIGNACION);
+        jj_consume_token(LEER);
+        break;
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+  }
+
+  final public void Expresion() throws ParseException {
+    if (jj_2_3(3)) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case CADENAS:
+      case NUMERO:
+      case NUMDECIMAL:
+      case EST_LOGIC:
+        DataType();
+        break;
+      case IDENTIFICADOR:
+        jj_consume_token(IDENTIFICADOR);
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case CADENAS:
+      case NUMERO:
+      case NUMDECIMAL:
+      case EST_LOGIC:
+      case IDENTIFICADOR:
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case CADENAS:
+        case NUMERO:
+        case NUMDECIMAL:
+        case EST_LOGIC:
+          DataType();
+          break;
+        case IDENTIFICADOR:
+          jj_consume_token(IDENTIFICADOR);
+          break;
+        default:
+          jj_la1[5] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        Operadores();
+        Expresion();
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+  }
+
+  final public void DataType() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NUMERO:
+      jj_consume_token(NUMERO);
+      break;
+    case NUMDECIMAL:
+      jj_consume_token(NUMDECIMAL);
+      break;
+    case EST_LOGIC:
+      jj_consume_token(EST_LOGIC);
+      break;
+    case CADENAS:
+      jj_consume_token(CADENAS);
+      break;
+    default:
+      jj_la1[7] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void Operadores() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MAS:
+      jj_consume_token(MAS);
+      break;
+    case MENOS:
+      jj_consume_token(MENOS);
+      break;
+    case DIV:
+      jj_consume_token(DIV);
+      break;
+    case MODULO:
+      jj_consume_token(MODULO);
+      break;
+    case MULTI:
+      jj_consume_token(MULTI);
+      break;
+    default:
+      jj_la1[8] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void Variable_dato() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ENTERO:
+      jj_consume_token(ENTERO);
+      break;
+    case FLOTANTE:
+      jj_consume_token(FLOTANTE);
+      break;
+    case ID_CADENA:
+      jj_consume_token(ID_CADENA);
+      break;
+    case BOOLEANO:
+      jj_consume_token(BOOLEANO);
+      break;
+    default:
+      jj_la1[9] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
   }
 
   final public void error() throws ParseException {
@@ -191,8 +225,135 @@ public class CompilaBob implements CompilaBobConstants {
     t = jj_consume_token(UNKNOW);
         linea = t.beginLine;
         colum = t.endColumn;
-        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n";
+        errores = "Simbolo: " + t.image + " no reconocido en la l\u00c3\u00adnea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n";
         errormsg = errormsg+errores;
+  }
+
+  private boolean jj_2_1(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_1(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(0, xla); }
+  }
+
+  private boolean jj_2_2(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_2(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  private boolean jj_2_3(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_3(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(2, xla); }
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(ASIGNACION)) return true;
+    if (jj_3R_3()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_6() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_2()) {
+    jj_scanpos = xsp;
+    if (jj_3R_9()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_2() {
+    if (jj_3R_5()) return true;
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(36)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(37)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(40)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(33)) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_3R_2()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_10()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(41)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_4()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(41)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_3() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_7()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_4() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(ASIGNACION)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(34)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(35)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(38)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(39)) return true;
+    }
+    }
+    }
+    return false;
   }
 
   /** Generated Token Manager. */
@@ -203,8 +364,13 @@ public class CompilaBob implements CompilaBobConstants {
   /** Next token. */
   public Token jj_nt;
   private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
+  /** Whether we are looking ahead. */
+  private boolean jj_lookingAhead = false;
+  private boolean jj_semLA;
   private int jj_gen;
-  final private int[] jj_la1 = new int[2];
+  final private int[] jj_la1 = new int[10];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -212,11 +378,14 @@ public class CompilaBob implements CompilaBobConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xffffffc0,0xffffffc0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xf0000000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x7ff,0x7ff,};
+      jj_la1_1 = new int[] {0x6cc,0x6cc,0x200,0x200,0x332,0x332,0x332,0x132,0x1,0xcc,};
    }
+  final private JJCalls[] jj_2_rtns = new JJCalls[3];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public CompilaBob(java.io.InputStream stream) {
@@ -229,7 +398,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -243,7 +413,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
@@ -253,7 +424,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -263,7 +435,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
@@ -272,7 +445,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -281,7 +455,8 @@ public class CompilaBob implements CompilaBobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -291,11 +466,44 @@ public class CompilaBob implements CompilaBobConstants {
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
+      if (++jj_gc > 100) {
+        jj_gc = 0;
+        for (int i = 0; i < jj_2_rtns.length; i++) {
+          JJCalls c = jj_2_rtns[i];
+          while (c != null) {
+            if (c.gen < jj_gen) c.first = null;
+            c = c.next;
+          }
+        }
+      }
       return token;
     }
     token = oldToken;
     jj_kind = kind;
     throw generateParseException();
+  }
+
+  static private final class LookaheadSuccess extends java.lang.Error { }
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private boolean jj_scan_token(int kind) {
+    if (jj_scanpos == jj_lastpos) {
+      jj_la--;
+      if (jj_scanpos.next == null) {
+        jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+      } else {
+        jj_lastpos = jj_scanpos = jj_scanpos.next;
+      }
+    } else {
+      jj_scanpos = jj_scanpos.next;
+    }
+    if (jj_rescan) {
+      int i = 0; Token tok = token;
+      while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+      if (tok != null) jj_add_error_token(kind, i);
+    }
+    if (jj_scanpos.kind != kind) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+    return false;
   }
 
 
@@ -310,7 +518,7 @@ public class CompilaBob implements CompilaBobConstants {
 
 /** Get the specific Token. */
   final public Token getToken(int index) {
-    Token t = token;
+    Token t = jj_lookingAhead ? jj_scanpos : token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
       else t = t.next = token_source.getNextToken();
@@ -328,6 +536,36 @@ public class CompilaBob implements CompilaBobConstants {
   private java.util.List jj_expentries = new java.util.ArrayList();
   private int[] jj_expentry;
   private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
+
+  private void jj_add_error_token(int kind, int pos) {
+    if (pos >= 100) return;
+    if (pos == jj_endpos + 1) {
+      jj_lasttokens[jj_endpos++] = kind;
+    } else if (jj_endpos != 0) {
+      jj_expentry = new int[jj_endpos];
+      for (int i = 0; i < jj_endpos; i++) {
+        jj_expentry[i] = jj_lasttokens[i];
+      }
+      boolean exists = false;
+      for (java.util.Iterator it = jj_expentries.iterator(); it.hasNext();) {
+        int[] oldentry = (int[])(it.next());
+        if (oldentry.length == jj_expentry.length) {
+          exists = true;
+          for (int i = 0; i < jj_expentry.length; i++) {
+            if (oldentry[i] != jj_expentry[i]) {
+              exists = false;
+              break;
+            }
+          }
+          if (exists) break;
+        }
+      }
+      if (!exists) jj_expentries.add(jj_expentry);
+      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+    }
+  }
 
   /** Generate ParseException. */
   public ParseException generateParseException() {
@@ -337,7 +575,7 @@ public class CompilaBob implements CompilaBobConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 10; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -356,6 +594,9 @@ public class CompilaBob implements CompilaBobConstants {
         jj_expentries.add(jj_expentry);
       }
     }
+    jj_endpos = 0;
+    jj_rescan_token();
+    jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = (int[])jj_expentries.get(i);
@@ -369,6 +610,43 @@ public class CompilaBob implements CompilaBobConstants {
 
   /** Disable tracing. */
   final public void disable_tracing() {
+  }
+
+  private void jj_rescan_token() {
+    jj_rescan = true;
+    for (int i = 0; i < 3; i++) {
+    try {
+      JJCalls p = jj_2_rtns[i];
+      do {
+        if (p.gen > jj_gen) {
+          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+          switch (i) {
+            case 0: jj_3_1(); break;
+            case 1: jj_3_2(); break;
+            case 2: jj_3_3(); break;
+          }
+        }
+        p = p.next;
+      } while (p != null);
+      } catch(LookaheadSuccess ls) { }
+    }
+    jj_rescan = false;
+  }
+
+  private void jj_save(int index, int xla) {
+    JJCalls p = jj_2_rtns[index];
+    while (p.gen > jj_gen) {
+      if (p.next == null) { p = p.next = new JJCalls(); break; }
+      p = p.next;
+    }
+    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;
+  }
+
+  static final class JJCalls {
+    int gen;
+    Token first;
+    int arg;
+    JJCalls next;
   }
 
 }

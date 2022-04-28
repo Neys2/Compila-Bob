@@ -17,7 +17,7 @@ public class CompilaBob {
 	public static void main(String args[])  { 
 		CompilaBob compilador = new CompilaBob(System.in); 
 		try { 
-			compilador.start(); 
+			compilador.Codigo(); 
 		}catch( Exception e ){   
 			System.out.println( "Expresión no válida" );
 		}catch( TokenMgrError e ) { 
@@ -25,6 +25,7 @@ public class CompilaBob {
 		} 
 		System.out.println(compilador.errormsg);
 		System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+		// System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico ejecutado con "+"\u00e9"+"xito");  
 	}    
 }   
 
@@ -123,60 +124,70 @@ TOKEN:
   
 
 TOKEN: 
-
 { 
 	<UNKNOW : ~[]>
 }
 
-void start():  
+ void Codigo():{} 
+{
+	<INICIO><SepIzq>  
+	Cuerpo() 
+	<ParenDer><FIN><EOF> 
+} 
 
-{}  
+void Cuerpo():{} 
+{ 
+(sentencias()|error())* 
+} 
 
-{  
+void sentencias():{} 
+{ 
+LOOKAHEAD(3) 
+Declaracion() <PuntoComa>  
+| Asignacion() <PuntoComa>  
+// | Aqui ponen las demas sentencias
+} 
 
-<INICIO>(  
-<IF>  
-|<ELSE>  
-|<CicloIterado>  
-|<CicloLimit>  
-|<CicloWhile>  
-|<ESCRIBIR>  
-|<LEER>  
-|<ParenIzq>  
-|<ParenDer>  
-|<SepIzq>  
-|<SepDer>  
-|<PuntoComa>  
-|<SepParametro>  
-|<ASIGNACION>  
-|<MENOR>  
-|<MAYOR>  
-|<MENOR_IGUAL>  
-|<MAYOR_IGUAL> 
-|<IGUALDAD> 
-|<OR>
-|<AND>
-|<NOT>
-|<MAS>
-|<MENOS> 
-|<DIV>
-|<MODULO>  
-|<MULTI>  
-|<ENTERO>  
-|<FLOTANTE>  
-|<NUMERO>  
-|<NUMDECIMAL>  
-|<CADENAS>  
-|<ID_CADENA>  
+void Declaracion():{}
+{ 
+Variable_dato() Asignacion() 
+} 
+
+void Asignacion():{} 
+{ 
+LOOKAHEAD(3) 
+<IDENTIFICADOR> <ASIGNACION> Expresion() 
+|<IDENTIFICADOR> <ASIGNACION><LEER> 
+} 
+
+void Expresion():{} 
+{ LOOKAHEAD(3) 
+(DataType() |<IDENTIFICADOR>)  
+|(DataType() |<IDENTIFICADOR>) Operadores() Expresion()
+} 
+void DataType():{} 
+{ 
+<NUMERO> |<NUMDECIMAL> | <EST_LOGIC>|<CADENAS> 
+} 
+
+void Operadores():{} 
+{ 
+ <MAS> 
+|<MENOS>  
+|<DIV> 
+|<MODULO>   
+|<MULTI>   
+} 
+
+void Variable_dato():{} 
+{ 
+<ENTERO>   
+|<FLOTANTE>   
+|<ID_CADENA>   
 |<BOOLEANO>  
-|<EST_LOGIC>
-|<IDENTIFICADOR>
-|error())
-+<FIN><EOF>  
+} 
 
  
-
-}  
 
 void error():  
 
