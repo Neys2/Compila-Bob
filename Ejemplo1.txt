@@ -7,7 +7,7 @@ compilar_coatl{
 		n:n+1;
 		muestra(n);
 		~
-	}
+	};
 	##
 	HOLA, COMENTARIO MULTILINEA
 	##

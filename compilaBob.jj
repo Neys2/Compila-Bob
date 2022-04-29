@@ -144,9 +144,17 @@ void sentencias():{}
 { 
 LOOKAHEAD(3) 
 Declaracion() <PuntoComa>  
-| Asignacion() <PuntoComa>  
+| Asignacion() <PuntoComa>
+| Ciclo_Repito() <PuntoComa>  
 // | Aqui ponen las demas sentencias
-} 
+}
+
+void Ciclo_RepitoHastaQue():{}
+{
+	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|<DataType> ) <ParenDer> <ASIGNACION> 
+	<SepIzq> sentencias() <SepDer> <PuntoComa> 
+
+}
 
 void Declaracion():{}
 { 
