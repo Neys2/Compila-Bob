@@ -116,10 +116,23 @@ void Cuerpo():{}
 void sentencias():{} 
 { 
 LOOKAHEAD(3) 
+<<<<<<< HEAD
 Declaracion() <PuntoComa>  //punto como token separado debido a la variabilidad del codigo
 | Asignacion() <PuntoComa>  
+=======
+Declaracion() <PuntoComa>  
+| Asignacion() <PuntoComa>
+| Ciclo_Repito() <PuntoComa>  
+>>>>>>> b8fa2934641310b11f6e71ad0d41981e12b95f1a
 // | Aqui ponen las demas sentencias
-} 
+}
+
+void Ciclo_RepitoHastaQue():{}
+{
+	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|<DataType> ) <ParenDer> <ASIGNACION> 
+	<SepIzq> sentencias() <SepDer> <PuntoComa> 
+
+}
 
 void Declaracion():{}
 { //La declaracion es creacion de una Variable_dato
@@ -168,16 +181,12 @@ void Variable_dato():{}
 |<BOOLEANO>  
 } 
 
- 
-
 void error():  
-
 {
 	String errores = " "; 
 	int linea, colum; 
 	Token t;
 } 
-
 {  
 	t = <UNKNOW> 
 { 
