@@ -116,14 +116,10 @@ void Cuerpo():{}
 void sentencias():{} 
 { 
 LOOKAHEAD(3) 
-<<<<<<< HEAD
-Declaracion() <PuntoComa>  //punto como token separado debido a la variabilidad del codigo
-| Asignacion() <PuntoComa>  
-=======
-Declaracion() <PuntoComa>  
-| Asignacion() <PuntoComa>
+ // PuntoComa token separado debido a la variabilidad del codigo
+Declaracion() <PuntoComa>  // Declaracion de Variables 
+| Asignacion() <PuntoComa>  //Asignacion de valores 
 | Ciclo_Repito() <PuntoComa>  
->>>>>>> b8fa2934641310b11f6e71ad0d41981e12b95f1a
 // | Aqui ponen las demas sentencias
 }
 
