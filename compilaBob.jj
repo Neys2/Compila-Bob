@@ -5,13 +5,7 @@ options {
 
 } 
 
- 
-
- 
-
 PARSER_BEGIN(CompilaBob) 
- 
-
 public class CompilaBob {  
 	String errormsg="\n";  
 	public static void main(String args[])  { 
@@ -28,23 +22,17 @@ public class CompilaBob {
 		// System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico ejecutado con "+"\u00e9"+"xito");  
 	}    
 }   
-
- 
-
 PARSER_END(CompilaBob)   
 
 SKIP :   
-
 {  
 	< " " | "\t" | "\r" | "\n" | "\r\n" >  //White space
 	| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >  //Single-line comments
 	| <"##"(~["/"])*  "#""#" >  //Multi-line comments
-
 }  
 
 TOKEN:   
 {   
-
 <INICIO: "compilar_coatl"> {System.out.println("INICIO  --> "+image);}  
 |<FIN: "ejecutar_coatl">  {System.out.println("FIN  --> "+image);}  
 |<IF: "decide"> {System.out.println("IF  --> "+image+"\r\n");}  
@@ -54,11 +42,9 @@ TOKEN:
 |<CicloWhile: "mientras"> {System.out.println("CICLO WHILE --> "+image+"\r\n");} 
 |<ESCRIBIR: "muestra">{System.out.println("PRINT --> "+image+"\r\n");}
 |<LEER:"recibir">{System.out.println("SCAN_DATA --> "+image+"\r\n");} 
-
 }  
 
 TOKEN:   
-
 {   
 <ParenIzq: "("> {System.out.println("Parentesis Izquierdo --> "+image);} 
 |<ParenDer: ")"> {System.out.println("Parentesis Derecho --> "+image);}
@@ -66,13 +52,10 @@ TOKEN:
 |<SepDer: "}"> {System.out.println("Delimitador Derecho --> "+image);} 
 |<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);} 
 |<SepParametro: ","> {System.out.println("Separador de parametros --> "+image);}
-
 }  
 
 TOKEN:  
-
 {  
-
 <ASIGNACION: ":"> {System.out.println("Asignacion de valor -->"+image);}
 |<MENOR: "<"> {System.out.println("MENOR QUE --> "+image);} 
 |<MAYOR: ">"> {System.out.println("MAYOR QUE --> "+image);}
@@ -87,14 +70,9 @@ TOKEN:
 |<DIV: "/"> {System.out.println("SIGNO DIVISION --> "+image);} 
 |<MODULO: "%"> {System.out.println("SIGNO MODULO --> "+image);} 
 |<MULTI: "*"> {System.out.println("SIGNO MULTIPLICACION --> "+image);}
-
 }   
 // [("E_")(["a"-"z"|"A"-"Z"|"_"|"0"-"9"])+]  
-
 //"E_"(["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*)  
-
- 
-
 // NOT ~ 
 
 TOKEN: 
@@ -103,9 +81,7 @@ TOKEN:
 }
 
 TOKEN: 
-
 { 
-
 <ENTERO: "E_">{System.out.println("ENTERO --> "+image+"\r\n");} 
 |<FLOTANTE: "D_">{System.out.println("FLOAT/DECIMAL --> "+image+"\r\n");} 
 |<NUMERO: (["0"-"9"])+>{System.out.println("NUMERO ENTERO --> "+image+"\r\n");}  
@@ -114,64 +90,69 @@ TOKEN:
 |<BOOLEANO: "L_">{System.out.println("BOOLEANO --> "+image+"\r\n");} 
 |<EST_LOGIC:("falso"|"verdad")>{System.out.println("ESTADO LOGICO --> "+image+"\r\n");} 
 |<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>{System.out.println("IDENTIFICADOR --> "+image+"\r\n");} 
-
 }   
 
 // |<COMILLAS:"\"">{System.out.println("COMILLAS  --> "+image+"\r\n");}  
 
 // | ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"," "])* 
 
-  
-
 TOKEN: 
 { 
 	<UNKNOW : ~[]>
 }
 
- void Codigo():{} 
+ void Codigo():{} // Gramatica inicial que contiene el cuerpo basico del codigo
 {
-	<INICIO><SepIzq>  
-	Cuerpo() 
-	<ParenDer><FIN><EOF> 
+	<INICIO><SepIzq>  //Palabra reservada de inicio
+	Cuerpo() // Conjunto de sentencias tipo; declaraciones, ciclos, decisiones, etc
+	<ParenDer><FIN><EOF> // Palabra reservada de cierre
 } 
 
 void Cuerpo():{} 
 { 
-(sentencias()|error())* 
+(sentencias()|error())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
 } 
 
 void sentencias():{} 
 { 
 LOOKAHEAD(3) 
-Declaracion() <PuntoComa>  
+Declaracion() <PuntoComa>  //punto como token separado debido a la variabilidad del codigo
 | Asignacion() <PuntoComa>  
 // | Aqui ponen las demas sentencias
 } 
 
 void Declaracion():{}
-{ 
+{ //La declaracion es creacion de una Variable_dato
+//ya sea que se asigne el valor en cuanto se haya creado 
 Variable_dato() Asignacion() 
+		// O no, solo se declare para su futuro uso
+| Variable_dato()<IDENTIFICADOR>
 } 
 
 void Asignacion():{} 
 { 
-LOOKAHEAD(3) 
+LOOKAHEAD(3) //Diferentes formas de una asignacion de datos
+// Ya sea mediante una expresion matematica
 <IDENTIFICADOR> <ASIGNACION> Expresion() 
-|<IDENTIFICADOR> <ASIGNACION><LEER> 
+// O un ingreso de datos mediante el teclado
+|<IDENTIFICADOR> <ASIGNACION> <LEER> 
 } 
 
 void Expresion():{} 
 { LOOKAHEAD(3) 
+//Expresion matematica donde se usan numeros o variables
+//Puede ser simple, un solo valor
 (DataType() |<IDENTIFICADOR>)  
+//O la recursion de la gramatica para agregar variables y numeros
 |(DataType() |<IDENTIFICADOR>) Operadores() Expresion()
 } 
 void DataType():{} 
-{ 
+{ //Tipos de datos 
 <NUMERO> |<NUMDECIMAL> | <EST_LOGIC>|<CADENAS> 
 } 
 
 void Operadores():{} 
-{ 
+{ //Operadores para expresiones matematicas
  <MAS> 
 |<MENOS>  
 |<DIV> 
@@ -180,7 +161,7 @@ void Operadores():{}
 } 
 
 void Variable_dato():{} 
-{ 
+{ //Tipo del dato de la variable del dato a la hora de su declaracion
 <ENTERO>   
 |<FLOTANTE>   
 |<ID_CADENA>   
