@@ -109,7 +109,7 @@ TOKEN:
 {
 	<INICIO><SepIzq>  //Palabra reservada de inicio
 	Cuerpo() // Conjunto de sentencias tipo; declaraciones, ciclos, decisiones, etc
-	<ParenDer><FIN><EOF> // Palabra reservada de cierre
+	<SepDer><FIN><EOF> // Palabra reservada de cierre
 } 
 
 void Cuerpo():{} 
@@ -121,9 +121,9 @@ void Cuerpo():{}
 void sentencias():{} 
 { 
 LOOKAHEAD(2) 
- // PuntoComa token separado debido a la variabilidad del codigo
-Declaracion() <PuntoComa>  // Declaracion de Variables 
-| Asignacion() <PuntoComa>  //Asignacion de valores 
+ // PuntoComa toen separado debido a la variabilidad del codigo
+Declaracion()   // Declaracion de Variables k
+| Asignacion() //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 // | Aqui ponen las demas sentencias
 }
@@ -137,43 +137,76 @@ void Ciclo_RepitoHastaQue():{}
 
 void Declaracion():{}
 { //La declaracion es creacion de una Variable_dato
-//	LOOKAHEAD(Variable_dato() <IDENTIFICADOR>)
+	//LOOKAHEAD(3)
 	// Ya sea que solo se declare para su futuro uso
-//Variable_dato() <IDENTIFICADOR>
+  //Variable_dato() <IDENTIFICADOR> <PuntoComa>
 
 //o no, que se asigne el valor en cuanto se haya creado 
-Variable_dato() Asignacion() 
+ Variable_dato() Asignacion() {System.out.println("Asignacion");}
 
 } 
 
 void Asignacion():{} 
 { 
-LOOKAHEAD(<IDENTIFICADOR> <ASIGNACION> <LEER> ) //Diferentes formas de una asignacion de datos
-// Ya sea mediante una expresion matematica
-<IDENTIFICADOR> <ASIGNACION> Expresion() 
-// O un ingreso de datos mediante el teclado
-|<IDENTIFICADOR> <ASIGNACION> <LEER> 
+	// //Diferentes formas de una asignacion de datos
+	<IDENTIFICADOR> <ASIGNACION> (
+		LOOKAHEAD(<LEER> <PuntoComa>)
+		<LEER> <PuntoComa>
+		| Expresion() 
+	)
 } 
 
 void Expresion():{} 
-{ LOOKAHEAD(2) 
+{ //LOOKAHEAD(2) 
 //Expresion matematica donde se usan numeros o variables
 
-(LOOKAHEAD((DataType() |<IDENTIFICADOR>) Operadores() Expresion()) 
+//Caso de numeros negativos
+   ( LOOKAHEAD(<PuntoComa>)
+     <MENOS>  (<NUMERO> |<NUMDECIMAL>) (
+		 <PuntoComa>
+   		| Expresion() ))
+|
+   ( //LOOKAHEAD(2)
 	//Puede ser simple, un solo valor
-(DataType() | <IDENTIFICADOR>)  
-
-//O la recursion de la gramatica para agregar variables y numeros
-|(DataType() |<IDENTIFICADOR>) Operadores() Expresion() )
-
-//Parentesis (Lookahead para ver cual de las dos opciones gramaticales es y evitar pedos. 
-//   			Ya que siempre elegira la primera opcion si no se especifica)
-|( LOOKAHEAD(<ParenIzq> Expresion() <ParenDer> Operadores())
-	 	<ParenIzq> Expresion() <ParenDer>
-	| <ParenIzq> Expresion() <ParenDer> Operadores() Expresion()
-) 
+	    (DataType() | <IDENTIFICADOR>) (
+		    <PuntoComa>
+			| Operadores() Expresion() ) )
+|  Parentesis()
 } 
+void Parentesis():{}{
+	(  LOOKAHEAD(<ParenIzq> OperacionesNested() ParenFinal())
+  <ParenIzq> OperacionesNested() ParenFinal()
+| <ParenIzq> OperacionesNested() ParenSigue()  )
+  
+	}
+void OperacionesNested():{}{
+	LOOKAHEAD(2)
+		(DataType() | <IDENTIFICADOR>)
+	|	(DataType() |<IDENTIFICADOR>) Operadores() OperacionesNested()
+	|   ParentesisNested()
+}
+void ParentesisNested():{}{
+	(  LOOKAHEAD(<ParenIzq> OperacionesNested() ParenFinalNested())
+  <ParenIzq> OperacionesNested() ParenFinalNested()
+| <ParenIzq> OperacionesNested() ParenSigueNested()  )
+	}
 
+void ParenFinalNested():{}{
+		<ParenDer> 
+		}
+void ParenSigueNested():{}{
+		<ParenDer> OperacionesNested()
+		}
+
+void ParenFinal():{}{
+	<ParenDer> <PuntoComa>
+	}
+void ParenSigue():{}{
+	<ParenDer> Expresion()
+	}
+
+
+ 
 void DataType():{} 
 { //Tipos de datos  
 	LOOKAHEAD(<NUMDECIMAL>)
