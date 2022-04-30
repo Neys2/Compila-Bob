@@ -2,7 +2,6 @@ options {
 	JAVA_UNICODE_ESCAPE = true; 
 	KEEP_LINE_COLUMN = true; 
 	STATIC = false; 
-
 } 
 
 PARSER_BEGIN(CompilaBob) 
@@ -14,12 +13,13 @@ public class CompilaBob {
 			compilador.Codigo(); 
 		}catch( Exception e ){   
 			System.out.println( "Expresión no válida" );
-		}catch( TokenMgrError e ) { 
+		}
+		catch( TokenMgrError e ) { 
 			System.out.println( "Error de Token" );
 		} 
 		System.out.println(compilador.errormsg);
-		System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
-		// System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico ejecutado con "+"\u00e9"+"xito");  
+		//System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+		 System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico ejecutado con "+"\u00e9"+"xito");  
 	}    
 }   
 PARSER_END(CompilaBob)   
@@ -51,7 +51,7 @@ TOKEN:
 |<SepIzq: "{"> {System.out.println("Delimitador Izquierdo --> "+image);} 
 |<SepDer: "}"> {System.out.println("Delimitador Derecho --> "+image);} 
 |<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);} 
-|<SepParametro: ","> {System.out.println("Separador de parametros --> "+image);}
+|<COMA: ","> {System.out.println("COMA --> "+image);} 
 }  
 
 TOKEN:  
@@ -89,9 +89,13 @@ TOKEN:
 |<ID_CADENA: "C_">{System.out.println("STRING --> "+image+"\r\n");} 
 |<BOOLEANO: "L_">{System.out.println("BOOLEANO --> "+image+"\r\n");} 
 |<EST_LOGIC:("falso"|"verdad")>{System.out.println("ESTADO LOGICO --> "+image+"\r\n");} 
-|<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>{System.out.println("IDENTIFICADOR --> "+image+"\r\n");} 
 }   
 
+TOKEN: 
+{
+	<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>{System.out.println("IDENTIFICADOR --> "+image+"\r\n");} 
+
+}
 // |<COMILLAS:"\"">{System.out.println("COMILLAS  --> "+image+"\r\n");}  
 
 // | ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"," "])* 
@@ -110,37 +114,41 @@ TOKEN:
 
 void Cuerpo():{} 
 { 
-(sentencias()|error())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
+(	LOOKAHEAD(3)
+	sentencias()|error())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
 } 
 
 void sentencias():{} 
 { 
-LOOKAHEAD(3) 
+LOOKAHEAD(2) 
  // PuntoComa token separado debido a la variabilidad del codigo
 Declaracion() <PuntoComa>  // Declaracion de Variables 
 | Asignacion() <PuntoComa>  //Asignacion de valores 
-| Ciclo_Repito() <PuntoComa>  
+| Ciclo_RepitoHastaQue() 
 // | Aqui ponen las demas sentencias
 }
 
 void Ciclo_RepitoHastaQue():{}
 {
-	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|<DataType> ) <ParenDer> <ASIGNACION> 
-	<SepIzq> sentencias() <SepDer> <PuntoComa> 
+	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|DataType()) <ParenDer> <ASIGNACION> 
+	<SepIzq> sentencias() <SepDer> 
 
 }
 
 void Declaracion():{}
 { //La declaracion es creacion de una Variable_dato
-//ya sea que se asigne el valor en cuanto se haya creado 
+//	LOOKAHEAD(Variable_dato() <IDENTIFICADOR>)
+	// Ya sea que solo se declare para su futuro uso
+//Variable_dato() <IDENTIFICADOR>
+
+//o no, que se asigne el valor en cuanto se haya creado 
 Variable_dato() Asignacion() 
-		// O no, solo se declare para su futuro uso
-| Variable_dato()<IDENTIFICADOR>
+
 } 
 
 void Asignacion():{} 
 { 
-LOOKAHEAD(3) //Diferentes formas de una asignacion de datos
+LOOKAHEAD(<IDENTIFICADOR> <ASIGNACION> <LEER> ) //Diferentes formas de una asignacion de datos
 // Ya sea mediante una expresion matematica
 <IDENTIFICADOR> <ASIGNACION> Expresion() 
 // O un ingreso de datos mediante el teclado
@@ -148,20 +156,33 @@ LOOKAHEAD(3) //Diferentes formas de una asignacion de datos
 } 
 
 void Expresion():{} 
-{ LOOKAHEAD(3) 
+{ LOOKAHEAD(2) 
 //Expresion matematica donde se usan numeros o variables
-//Puede ser simple, un solo valor
-(DataType() |<IDENTIFICADOR>)  
+
+(LOOKAHEAD((DataType() |<IDENTIFICADOR>) Operadores() Expresion()) 
+	//Puede ser simple, un solo valor
+(DataType() | <IDENTIFICADOR>)  
+
 //O la recursion de la gramatica para agregar variables y numeros
-|(DataType() |<IDENTIFICADOR>) Operadores() Expresion()
+|(DataType() |<IDENTIFICADOR>) Operadores() Expresion() )
+
+//Parentesis (Lookahead para ver cual de las dos opciones gramaticales es y evitar pedos. 
+//   			Ya que siempre elegira la primera opcion si no se especifica)
+|( LOOKAHEAD(<ParenIzq> Expresion() <ParenDer> Operadores())
+	 	<ParenIzq> Expresion() <ParenDer>
+	| <ParenIzq> Expresion() <ParenDer> Operadores() Expresion()
+) 
 } 
+
 void DataType():{} 
-{ //Tipos de datos 
+{ //Tipos de datos  
+	LOOKAHEAD(<NUMDECIMAL>)
 <NUMERO> |<NUMDECIMAL> | <EST_LOGIC>|<CADENAS> 
 } 
 
 void Operadores():{} 
 { //Operadores para expresiones matematicas
+	LOOKAHEAD(3)
  <MAS> 
 |<MENOS>  
 |<DIV> 
@@ -171,6 +192,7 @@ void Operadores():{}
 
 void Variable_dato():{} 
 { //Tipo del dato de la variable del dato a la hora de su declaracion
+	LOOKAHEAD(3)
 <ENTERO>   
 |<FLOTANTE>   
 |<ID_CADENA>   

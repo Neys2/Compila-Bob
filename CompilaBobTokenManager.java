@@ -1197,7 +1197,7 @@ void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[18]);
         lengthOfMatch = jjstrLiteralImages[18].length();
-                      System.out.println("Separador de parametros --> "+image);
+              System.out.println("COMA --> "+image);
          break;
       case 19 :
         if (image == null)
@@ -1353,7 +1353,7 @@ void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                               System.out.println("IDENTIFICADOR --> "+image+"\r\n");
+                                                                      System.out.println("IDENTIFICADOR --> "+image+"\r\n");
          break;
       default : 
          break;

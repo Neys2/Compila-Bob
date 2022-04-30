@@ -37,7 +37,7 @@ public interface CompilaBobConstants {
   /** RegularExpression Id. */
   int PuntoComa = 17;
   /** RegularExpression Id. */
-  int SepParametro = 18;
+  int COMA = 18;
   /** RegularExpression Id. */
   int ASIGNACION = 19;
   /** RegularExpression Id. */
