@@ -6,7 +6,7 @@ public class CompilaBob implements CompilaBobConstants {
                 try {
                         compilador.Codigo();
                 }catch( Exception e ){
-                        System.out.println( "Expresi\u00c3\u00b3n no v\u00c3\u00a1lida" );
+                        System.out.println( "Expresi\u00f3n no v\u00e1lida" );
                 }
                 catch( TokenMgrError e ) {
                         System.out.println( "Error de Token" );
@@ -412,7 +412,7 @@ public class CompilaBob implements CompilaBobConstants {
     t = jj_consume_token(UNKNOW);
         linea = t.beginLine;
         colum = t.endColumn;
-        errores = "Simbolo: " + t.image + " no reconocido en la l\u00c3\u00adnea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n";
+        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n";
         errormsg = errormsg+errores;
   }
 

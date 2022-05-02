@@ -120,11 +120,12 @@ void Cuerpo():{}
 
 void sentencias():{} 
 { 
-LOOKAHEAD(2) 
+LOOKAHEAD(2)   
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
 | Asignacion() //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
+| condicional()
 // | Aqui ponen las demas sentencias
 }
 
@@ -231,6 +232,48 @@ void Variable_dato():{}
 |<ID_CADENA>   
 |<BOOLEANO>  
 } 
+ 
+//--------------------------------------------------------------- INICIO CODIGO ARAMIS ------------------
+void condicional():{}
+{
+//condicional con 2 opciones
+<IF> <ParenIzq> (OpLogicas()) <ParenDer> <SepIzq>
+<sentencias> 
+<SepDer>
+<ELSE> <SepIzq>
+<sentencias> 
+<SepDer>
+| //o condicional con la opción validada
+<IF> <ParenIzq> (OpLogicas()) <ParenDer> <SepIzq>
+<sentencias> 
+<SepDer>
+}
+
+void OpLogicos():{}
+
+{//Operadores logicos que al emplearse como operacion, regresan V, o F
+<MENOR> 
+|<MAYOR> 
+|<MENOR_IGUAL> 
+|<MAYOR_IGUAL>
+|<IGUALDAD> 
+|<OR> 
+|<AND> 
+|<NOT> 
+}
+
+void OpLogicas(){}
+{
+//operaciones logicas que emplean los operadores
+(Expresion() |<NUMERO> | IDENTIFICADOR | OpLogicas()) OpLogicos() (Expresion() | <NUMERO> | <IDENTIFICADOR> | OpLogicas())
+}
+
+//--------------------------------------------------------------- FIN CODIGO ARAMIS  ---------------------
+
+void errorGramatica(): String errorGram{}
+{
+	errorGram = "Error en la gramática se esperaba "
+}
 
 void error():  
 {
@@ -238,7 +281,8 @@ void error():
 	int linea, colum; 
 	Token t;
 } 
-{  
+
+{
 	t = <UNKNOW> 
 { 
 	linea = t.beginLine;
