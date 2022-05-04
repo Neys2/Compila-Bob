@@ -50,7 +50,8 @@ TOKEN:
 |<ParenDer: ")"> {System.out.println("Parentesis Derecho --> "+image);}
 |<SepIzq: "{"> {System.out.println("Delimitador Izquierdo --> "+image);} 
 |<SepDer: "}"> {System.out.println("Delimitador Derecho --> "+image);} 
-|<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);} 
+|<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);
+				   int cont = 0; } 
 |<COMA: ","> {System.out.println("COMA --> "+image);} 
 }  
 
@@ -118,7 +119,7 @@ void Cuerpo():{}
 	sentencias()|error())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
 } 
 
-void sentencias():{} 
+void sentencias():{ } 
 { 
 LOOKAHEAD(2)   
  // PuntoComa toen separado debido a la variabilidad del codigo
@@ -126,6 +127,7 @@ Declaracion()   // Declaracion de Variables k
 | Asignacion() //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 | condicional()
+<PuntoComa>
 // | Aqui ponen las demas sentencias
 }
 
@@ -270,10 +272,7 @@ void OpLogicas(){}
 
 //--------------------------------------------------------------- FIN CODIGO ARAMIS  ---------------------
 
-void errorGramatica(): String errorGram{}
-{
-	errorGram = "Error en la gramática se esperaba "
-}
+
 
 void error():  
 {
