@@ -4,11 +4,11 @@ options {
 	STATIC = false; 
 } 
 
-PARSER_BEGIN(CompilaBob) 
-public class CompilaBob {  
+PARSER_BEGIN(Compilabob) 
+public class Compilabob {  
 	String errormsg="\n";  
 	public static void main(String args[])  { 
-		CompilaBob compilador = new CompilaBob(System.in); 
+		Compilabob compilador = new Compilabob(System.in); 
 		try { 
 			compilador.Codigo(); 
 		}catch( Exception e ){   
@@ -22,7 +22,7 @@ public class CompilaBob {
 		 System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico ejecutado con "+"\u00e9"+"xito");  
 	}    
 }   
-PARSER_END(CompilaBob)   
+PARSER_END(Compilabob)   
 
 SKIP :   
 {  
@@ -123,7 +123,7 @@ void sentencias():{}
 LOOKAHEAD(2) 
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
-| Asignacion() //Asignacion de valores 
+| Asignacion() <PuntoComa> //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 // | Aqui ponen las demas sentencias
 }
@@ -134,77 +134,42 @@ void Ciclo_RepitoHastaQue():{}
 	<SepIzq> sentencias() <SepDer> 
 
 }
+ 
 
 void Declaracion():{}
-{ //La declaracion es creacion de una Variable_dato
-	//LOOKAHEAD(3)
-	// Ya sea que solo se declare para su futuro uso
-  //Variable_dato() <IDENTIFICADOR> <PuntoComa>
-
-//o no, que se asigne el valor en cuanto se haya creado 
- Variable_dato() Asignacion() {System.out.println("Asignacion");}
-
+{  
+  Variable_dato() 
+	<IDENTIFICADOR> (
+	  <PuntoComa> 
+	| <ASIGNACION>  AsignacionD() <PuntoComa> )  
 } 
 
+void AsignacionD():{} 
+{  
+	( <LEER>  | Expresion() )
+} 
 void Asignacion():{} 
-{ 
-	// //Diferentes formas de una asignacion de datos
-	<IDENTIFICADOR> <ASIGNACION> (
-		LOOKAHEAD(<LEER> <PuntoComa>)
-		<LEER> <PuntoComa>
-		| Expresion() 
-	)
+{  <IDENTIFICADOR> <ASIGNACION> ( <LEER>|Expresion() ) 
 } 
 
 void Expresion():{} 
-{ //LOOKAHEAD(2) 
-//Expresion matematica donde se usan numeros o variables
-
-//Caso de numeros negativos
-   ( LOOKAHEAD(<PuntoComa>)
-     <MENOS>  (<NUMERO> |<NUMDECIMAL>) (
-		 <PuntoComa>
-   		| Expresion() ))
-|
-   ( //LOOKAHEAD(2)
-	//Puede ser simple, un solo valor
-	    (DataType() | <IDENTIFICADOR>) (
-		    <PuntoComa>
-			| Operadores() Expresion() ) )
-|  Parentesis()
+{   
+	(<MENOS>|{}) Termino() (((<MAS>|<MENOS>) Expresion())  |  {})  
 } 
-void Parentesis():{}{
-	(  LOOKAHEAD(<ParenIzq> OperacionesNested() ParenFinal())
-  <ParenIzq> OperacionesNested() ParenFinal()
-| <ParenIzq> OperacionesNested() ParenSigue()  )
-  
-	}
-void OperacionesNested():{}{
-	LOOKAHEAD(2)
-		(DataType() | <IDENTIFICADOR>)
-	|	(DataType() |<IDENTIFICADOR>) Operadores() OperacionesNested()
-	|   ParentesisNested()
+
+// Epsilon option ---> | {}
+
+void Termino():{}
+{   LOOKAHEAD(2)
+	Factor()((<MULTI>|<DIV>|<MODULO> ) Termino() )
+	| Factor()
 }
-void ParentesisNested():{}{
-	(  LOOKAHEAD(<ParenIzq> OperacionesNested() ParenFinalNested())
-  <ParenIzq> OperacionesNested() ParenFinalNested()
-| <ParenIzq> OperacionesNested() ParenSigueNested()  )
-	}
+void Factor():{}
+{
+	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )// (<PuntoComa>|{})
+}
 
-void ParenFinalNested():{}{
-		<ParenDer> 
-		}
-void ParenSigueNested():{}{
-		<ParenDer> OperacionesNested()
-		}
-
-void ParenFinal():{}{
-	<ParenDer> <PuntoComa>
-	}
-void ParenSigue():{}{
-	<ParenDer> Expresion()
-	}
-
+ 
 
  
 void DataType():{} 
