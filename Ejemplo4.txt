@@ -1,5 +1,0 @@
-compilar_coatl{
-	#Variable del tipo entero, como no tiene un valor asignado su valor por defecto es 0
-	E_ varEnt;
-
-}ejecutar_coatl
