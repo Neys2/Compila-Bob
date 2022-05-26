@@ -1,0 +1,13 @@
+compilar_coatl{
+	#Declaración de variable entera
+	E_ varEnt : 65;
+	#Ejemplo de estructura de desición
+	decide (  varEnt & 5 | num1 = varEnt & 4 | num2  ) : {
+		E_ varEnt : 3;
+		#Código a ejecutar si la condición es verdadera
+		decide (num = 0) : {
+		 # (varEnt | num1)
+		}
+	} sino { E_ valo; }
+
+}ejecutar_coatl
