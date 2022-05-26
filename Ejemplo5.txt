@@ -1,5 +1,0 @@
-compilar_coatl{
-	#Variable del tipo entero con valor asignado
-	E_ varEnt:45;
-
-}ejecutar_coatl
