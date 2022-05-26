@@ -213,10 +213,8 @@ void ExpresionL():{
 	System.out.println("ExpresionL");
 } 
 {   LOOKAHEAD(2) 
-	(FactorL()
-	
-	(Logicos()) ExpresionL()
-	 ) | FactorL()
+	( <ParenIzq> FactorL() Logicos() FactorL() <ParenDer> ) 
+	|  FactorL()
 } 
 
 void FactorL():{

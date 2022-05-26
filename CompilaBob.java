@@ -372,9 +372,11 @@ public class Compilabob implements CompilabobConstants {
   final public void ExpresionL() throws ParseException {
         System.out.println("ExpresionL");
     if (jj_2_7(2)) {
+      jj_consume_token(ParenIzq);
       FactorL();
       Logicos();
-      ExpresionL();
+      FactorL();
+      jj_consume_token(ParenDer);
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ParenIzq:
@@ -620,19 +622,7 @@ public class Compilabob implements CompilabobConstants {
     finally { jj_save(9, xla); }
   }
 
-  private boolean jj_3R_18() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(ASIGNACION)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(12)) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_23() {
+  private boolean jj_3R_21() {
     if (jj_scan_token(ASIGNACION)) return true;
     return false;
   }
@@ -642,7 +632,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_13() {
+  private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_10()) {
@@ -658,7 +648,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_17() {
+  private boolean jj_3R_16() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(37)) {
@@ -669,13 +659,13 @@ public class Compilabob implements CompilabobConstants {
   }
 
   private boolean jj_3R_5() {
-    if (jj_3R_13()) return true;
+    if (jj_3R_12()) return true;
     if (jj_scan_token(IDENTIFICADOR)) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(17)) {
     jj_scanpos = xsp;
-    if (jj_3R_23()) return true;
+    if (jj_3R_21()) return true;
     }
     return false;
   }
@@ -685,7 +675,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_19() {
+  private boolean jj_3R_18() {
     if (jj_scan_token(CicloIterado)) return true;
     if (jj_scan_token(ParenIzq)) return true;
     if (jj_scan_token(IDENTIFICADOR)) return true;
@@ -708,7 +698,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_15() {
+  private boolean jj_3R_14() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(37)) {
@@ -718,10 +708,10 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_25() {
+  private boolean jj_3R_23() {
     if (jj_scan_token(IF)) return true;
     if (jj_scan_token(ParenIzq)) return true;
-    if (jj_3R_28()) return true;
+    if (jj_3R_25()) return true;
     return false;
   }
 
@@ -730,52 +720,31 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_9() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(25)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(26)) return true;
-    }
-    return false;
-  }
-
   private boolean jj_3_3() {
     if (jj_3R_6()) return true;
     return false;
   }
 
-  private boolean jj_3R_20() {
-    if (jj_3R_25()) return true;
+  private boolean jj_3R_19() {
+    if (jj_3R_23()) return true;
     return false;
   }
 
-  private boolean jj_3R_16() {
+  private boolean jj_3R_15() {
     if (jj_scan_token(ParenIzq)) return true;
-    if (jj_3R_22()) return true;
     return false;
   }
 
   private boolean jj_3R_8() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_16()) {
+    if (jj_3R_15()) {
     jj_scanpos = xsp;
-    if (jj_3R_17()) {
+    if (jj_3R_16()) {
     jj_scanpos = xsp;
     if (jj_scan_token(42)) return true;
     }
     }
-    return false;
-  }
-
-  private boolean jj_3R_27() {
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    if (jj_3R_20()) return true;
     return false;
   }
 
@@ -789,8 +758,18 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_24() {
-    if (jj_3R_21()) return true;
+  private boolean jj_3R_9() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_3R_20()) return true;
     return false;
   }
 
@@ -799,8 +778,8 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_28() {
-    if (jj_3R_22()) return true;
+  private boolean jj_3R_25() {
+    if (jj_3R_26()) return true;
     return false;
   }
 
@@ -809,11 +788,11 @@ public class Compilabob implements CompilabobConstants {
     xsp = jj_scanpos;
     if (jj_3_2()) {
     jj_scanpos = xsp;
+    if (jj_3R_9()) {
+    jj_scanpos = xsp;
     if (jj_3R_10()) {
     jj_scanpos = xsp;
-    if (jj_3R_11()) {
-    jj_scanpos = xsp;
-    if (jj_3R_12()) return true;
+    if (jj_3R_11()) return true;
     }
     }
     }
@@ -825,13 +804,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3_7() {
-    if (jj_3R_8()) return true;
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
+  private boolean jj_3R_26() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_7()) {
@@ -841,18 +814,24 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_14() {
+  private boolean jj_3_7() {
     if (jj_scan_token(ParenIzq)) return true;
-    if (jj_3R_21()) return true;
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(ParenIzq)) return true;
+    if (jj_3R_20()) return true;
     return false;
   }
 
   private boolean jj_3R_7() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_14()) {
+    if (jj_3R_13()) {
     jj_scanpos = xsp;
-    if (jj_3R_15()) {
+    if (jj_3R_14()) {
     jj_scanpos = xsp;
     if (jj_scan_token(42)) return true;
     }
@@ -860,7 +839,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_26() {
+  private boolean jj_3R_24() {
     return false;
   }
 
@@ -878,12 +857,24 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_21() {
+  private boolean jj_3R_20() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(30)) {
     jj_scanpos = xsp;
-    if (jj_3R_26()) return true;
+    if (jj_3R_24()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(ASIGNACION)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(12)) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) return true;
     }
     return false;
   }
