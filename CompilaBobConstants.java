@@ -55,37 +55,39 @@ public interface CompilabobConstants {
   /** RegularExpression Id. */
   int AND = 26;
   /** RegularExpression Id. */
-  int NOT = 27;
+  int NOTEQ = 27;
   /** RegularExpression Id. */
-  int MAS = 28;
+  int NOT = 28;
   /** RegularExpression Id. */
-  int MENOS = 29;
+  int MAS = 29;
   /** RegularExpression Id. */
-  int DIV = 30;
+  int MENOS = 30;
   /** RegularExpression Id. */
-  int MODULO = 31;
+  int DIV = 31;
   /** RegularExpression Id. */
-  int MULTI = 32;
+  int MODULO = 32;
   /** RegularExpression Id. */
-  int CADENAS = 33;
+  int MULTI = 33;
   /** RegularExpression Id. */
-  int ENTERO = 34;
+  int CADENAS = 34;
   /** RegularExpression Id. */
-  int FLOTANTE = 35;
+  int ENTERO = 35;
   /** RegularExpression Id. */
-  int NUMERO = 36;
+  int FLOTANTE = 36;
   /** RegularExpression Id. */
-  int NUMDECIMAL = 37;
+  int NUMERO = 37;
   /** RegularExpression Id. */
-  int ID_CADENA = 38;
+  int NUMDECIMAL = 38;
   /** RegularExpression Id. */
-  int BOOLEANO = 39;
+  int ID_CADENA = 39;
   /** RegularExpression Id. */
-  int EST_LOGIC = 40;
+  int BOOLEANO = 40;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 41;
+  int EST_LOGIC = 41;
   /** RegularExpression Id. */
-  int UNKNOW = 42;
+  int IDENTIFICADOR = 42;
+  /** RegularExpression Id. */
+  int UNKNOW = 43;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -120,6 +122,7 @@ public interface CompilabobConstants {
     "\"|\"",
     "\"&\"",
     "\"!=\"",
+    "\"!\"",
     "\"+\"",
     "\"-\"",
     "\"/\"",

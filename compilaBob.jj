@@ -3,6 +3,11 @@ options {
 	KEEP_LINE_COLUMN = true; 
 	STATIC = false; 
 } 
+/*
+javacc Compilabob.jj
+javac *.java
+java Compilabob < Ejemplo7.txt
+*/
 
 PARSER_BEGIN(Compilabob) 
 public class Compilabob {  
@@ -64,7 +69,8 @@ TOKEN:
 |<IGUALDAD: "="> {System.out.println("IGUAL --> "+image);}
 |<OR: "|"> {System.out.println("OR --> "+image);} 
 |<AND: "&"> {System.out.println("AND --> "+image);}
-|<NOT: "!="> {System.out.println("NOT --> "+image);}
+|<NOTEQ: "!="> {System.out.println("NOT EQUAL --> "+image);}
+|<NOT: "!"> {System.out.println("NOT --> "+image);}
 |<MAS: "+"> {System.out.println("SIGNO MAS --> "+image);} 
 |<MENOS: "-"> {System.out.println("SIGNO MENOS --> "+image);}
 |<DIV: "/"> {System.out.println("SIGNO DIVISION --> "+image);} 
@@ -125,8 +131,36 @@ LOOKAHEAD(2)
 Declaracion()   // Declaracion de Variables k
 | Asignacion() <PuntoComa> //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
+| Decide()
+
+
 // | Aqui ponen las demas sentencias
 }
+
+//########  DECIDE IF-ELSE ##########
+void Decide():{}
+{
+IF()( 
+	LOOKAHEAD(2)
+	ELSE()|{})
+
+}
+void IF():{ System.out.println("IF inicial");}
+{
+	<IF> <ParenIzq> OpComparacion() <ParenDer>  <ASIGNACION>  <SepIzq>
+	(	LOOKAHEAD(2)
+	sentencias()|error())*
+	<SepDer>
+}
+
+void ELSE():{}
+{
+	<ELSE> <SepIzq> 
+	(	LOOKAHEAD(2)
+	sentencias()|error())* <SepDer>
+}
+
+
 
 void Ciclo_RepitoHastaQue():{}
 {
@@ -135,7 +169,7 @@ void Ciclo_RepitoHastaQue():{}
 
 }
  
-
+// DECLARACION DE VARIABLES 
 void Declaracion():{}
 {  
   Variable_dato() 
@@ -143,15 +177,16 @@ void Declaracion():{}
 	  <PuntoComa> 
 	| <ASIGNACION>  AsignacionD() <PuntoComa> )  
 } 
-
+// ASIGNACION DE VALORES DESPUES DE UNA DECLARACION
 void AsignacionD():{} 
 {  
 	( <LEER>  | Expresion() )
 } 
+// ASIGNACION GENERAL DE VALORES A UNA VARIABLE
 void Asignacion():{} 
 {  <IDENTIFICADOR> <ASIGNACION> ( <LEER>|Expresion() ) 
 } 
-
+// GRAMATICA PARA EXPRESIONES MATEMATICAS DESPUES DE UNA ASIGNACION O DECLARACION
 void Expresion():{} 
 {   
 	(<MENOS>|{}) Termino() (((<MAS>|<MENOS>) Expresion())  |  {})  
@@ -166,17 +201,56 @@ void Termino():{}
 }
 void Factor():{}
 {
-	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )// (<PuntoComa>|{})
+	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> ) // (<PuntoComa>|{})
 }
 
- 
+// ############## OPERACIONES DE COMPARACION PARA IF O CICLOS  ####################
+void OpComparacion():{}{
+		ExpresionL() Comparadores() ExpresionL() 
+}
 
- 
+void ExpresionL():{
+	System.out.println("ExpresionL");
+} 
+{   LOOKAHEAD(2) 
+	(FactorL()
+	
+	(Logicos()) ExpresionL()
+	 ) | FactorL()
+} 
+
+void FactorL():{
+	System.out.println("Factor L");
+}
+{
+	((<ParenIzq> ExpresionL() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> ) 
+}
+
+// Epsilon option ---> | {}
+
+
+ // DATOS Y OPERADORES USADOS EN SENTENCIAS
 void DataType():{} 
 { //Tipos de datos  
 	LOOKAHEAD(<NUMDECIMAL>)
 <NUMERO> |<NUMDECIMAL> | <EST_LOGIC>|<CADENAS> 
 } 
+void Comparadores():{}
+{
+ <MENOR>   
+|<MAYOR> 
+|<MENOR_IGUAL>  
+|<MAYOR_IGUAL>  
+|<IGUALDAD> 
+|<NOTEQ> 
+}
+
+void Logicos():{}
+{
+  <OR>  
+ |<AND>  
+}
+
 
 void Operadores():{} 
 { //Operadores para expresiones matematicas

@@ -3,8 +3,11 @@ compilar_coatl{
 	E_ varEnt : 65;
 	#Ejemplo de estructura de desición
 	decide (varEnt > 70) : {
-
+		E_ varEnt : 65;
 		#Código a ejecutar si la condición es verdadera
-	}
+		decide (num = 0) : {
+		 
+		}
+	} sino { E_ valo; }
 
 }ejecutar_coatl
