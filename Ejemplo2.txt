@@ -1,0 +1,8 @@
+compilar_coatl{
+ejecutar_coatl
+	@
+	C_ cadena: "Hola mundo"";
+	muestra(cadena);
+}ejecutar_coatl
+ejecutar_coatl
+ejecutar_coatl
