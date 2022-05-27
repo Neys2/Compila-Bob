@@ -130,7 +130,7 @@ try {
 (LOOKAHEAD(2) 
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
-|( Asignacion() <PuntoComa>) //Asignacion de valores 
+|( Asignacion() (<PuntoComa>|errorFinlinea())) //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 | Ciclo_RepitoMientras()
 | Decide()
@@ -157,7 +157,7 @@ void AsignaCADENA():{}
 void Muestra():{}
 {
 
-	<ESCRIBIR> <ParenIzq>  Mensaje()   <ParenDer> <PuntoComa>
+	<ESCRIBIR> <ParenIzq>  Mensaje()   <ParenDer> (<PuntoComa>|errorFinlinea())
 }
 
 void Mensaje():{}{
@@ -199,7 +199,7 @@ void ELSE():{}
 void Ciclo_RepitoHastaQue():{}
 {
 	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|DataType()) <ParenDer> <ASIGNACION> 
-	<SepIzq> (sentencias())* <SepDer> <PuntoComa>
+	<SepIzq> (sentencias())* <SepDer> (<PuntoComa>|errorFinlinea())
 
 }
 
@@ -207,7 +207,7 @@ void Ciclo_RepitoHastaQue():{}
 {
 	<CicloLimit> <ASIGNACION> <SepIzq> 
 	(sentencias())* 
-	<SepDer> <CicloWhile> <ParenIzq> OpComparacion() <ParenDer> <PuntoComa>
+	<SepDer> <CicloWhile> <ParenIzq> OpComparacion() <ParenDer> (<PuntoComa>|errorFinlinea())
 } 
  
 // DECLARACION DE VARIABLES 
@@ -215,7 +215,7 @@ void Declaracion():{}
 {  
   Variable_dato() 
 	<IDENTIFICADOR> (
-	  <PuntoComa> | (<ASIGNACION>  AsignacionD() <PuntoComa>) )  
+		(<PuntoComa>|errorFinlinea())| (<ASIGNACION>  AsignacionD() (<PuntoComa>|errorFinlinea())) ) 
 } 
 // ASIGNACION DE VALORES DESPUES DE UNA DECLARACION
 void AsignacionD():{} 
@@ -343,9 +343,15 @@ void error():
 	linea = t.beginLine;
 	colum = t.endColumn; 
 	errores = "Simbolo: " + t.image + " no reconocido en la línea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n"; 
-	errormsg = errormsg+errores; 
+	errormsg = errormsg+errores;
 } 
 } 
+
+JAVACODE
+void errorFinlinea(){
+	a++;
+	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}
 
 /*
 
