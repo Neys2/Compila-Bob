@@ -1,0 +1,14 @@
+compilar_coatl{
+	#Se declara y asigna la variable "n"
+	E_ n:45;
+	#inicio de la estructura ciclica "repito-mientras"
+
+	repito : {
+		#código a ejecutar a ejecutar en caso de que la condición sea VERDAD
+		#se aumenta el contador n de forma manual.
+		n: n+1;
+		muestra("MI CARA");
+
+	}mientras(n < 45|num2); #Como n ya no es igual a 45 termina el ciclo
+	
+}ejecutar_coatl
