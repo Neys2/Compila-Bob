@@ -134,10 +134,20 @@ Declaracion()   // Declaracion de Variables k
 | Ciclo_RepitoMientras()
 | Decide()
 | Muestra()
+ 
 
 
 // | Aqui ponen las demas sentencias
 }
+/*
+void DeclaCADENA():{}
+{
+
+}
+void AsignaCADENA():{}
+{
+	
+} */
 
 void Muestra():{}
 {
@@ -236,34 +246,8 @@ void Factor():{}
 
 void Primario():{}
 {
-	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )
+	((<ParenIzq>	Expresion() <ParenDer>)  | DataType() | <IDENTIFICADOR> )
 }
-/*
-void Expresion():{} 
-{   
- 
-	(<MENOS> |{})   
-	  (LOOKAHEAD(2) 
-	  (Termino()(<MAS>|<MENOS>) Expresion())
-	  | Termino() )
-	
-
-	//(<MENOS>|{}) Termino() (((<MAS>|<MENOS>) Expresion())  |  {})  
-} 
-
-// Epsilon option ---> | {}
-
-void Termino():{}
-{  ( LOOKAHEAD(2)
-	(Factor()((<MULTI>|<DIV>|<MODULO> ) Termino() ))
-	| Factor())
-}
-void Factor():{}
-{
-	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> ) // (<PuntoComa>|{})
-}
-*/
-
 
 
 // ############## OPERACIONES DE COMPARACION PARA IF O CICLOS  ####################
@@ -280,7 +264,7 @@ void ExpresionL():{}
 
 void FactorL():{}
 {
-	(  (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )
+	(  DataType() | <IDENTIFICADOR> )
 }
 
 // Epsilon option ---> | {}
@@ -289,7 +273,7 @@ void FactorL():{}
  // DATOS Y OPERADORES USADOS EN SENTENCIAS
 void DataType():{} 
 { //Tipos de datos  
-	LOOKAHEAD(<NUMDECIMAL>)
+	 
 <NUMERO> |<NUMDECIMAL> | <EST_LOGIC>|<CADENAS> 
 } 
 void Comparadores():{}
