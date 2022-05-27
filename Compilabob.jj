@@ -121,8 +121,7 @@ TOKEN:
 
 void Cuerpo():{} 
 { 
-(	LOOKAHEAD(3)
-	sentencias()|error())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
+	(sentencias())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
 } 
 
 void sentencias():{} 
@@ -136,6 +135,7 @@ Declaracion()   // Declaracion de Variables k
 | Ciclo_RepitoMientras()
 | Decide()
 | Muestra()
+| error()
   )
 }
 catch (ParseException e) {
@@ -215,8 +215,7 @@ void Declaracion():{}
 {  
   Variable_dato() 
 	<IDENTIFICADOR> (
-	  <PuntoComa> 
-	| <ASIGNACION>  AsignacionD() <PuntoComa> )  
+	  <PuntoComa> | (<ASIGNACION>  AsignacionD() <PuntoComa>) )  
 } 
 // ASIGNACION DE VALORES DESPUES DE UNA DECLARACION
 void AsignacionD():{} 
@@ -324,11 +323,12 @@ void error_skipto(int puntocoma, int fincode, int finfile) {
   // consume tokens all the way up to a token of "kind" - use a do-while loop
   // rather than a while because the current token is the one immediately before
   // the erroneous token (in our case the token immediately before what should
-  // have been "if"/"while".
+  // have been "if"/"while". 
   do {
     t = getNextToken();
+	System.out.println("ESTOY SALTANDO ------------ "+t.image);
   }
-  while ( (t.kind !=puntocoma)||(t.kind !=fincode)||(t.kind !=finfile));
+  while ( (t.kind !=puntocoma)&&(t.kind !=fincode)&&(t.kind !=finfile));
 }
 
 void error():  
@@ -346,4 +346,8 @@ void error():
 	errormsg = errormsg+errores; 
 } 
 } 
+
+/*
+
+*/
 
