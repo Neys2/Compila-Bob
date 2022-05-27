@@ -92,7 +92,7 @@ public class Compilabob implements CompilabobConstants {
       }
     } catch (ParseException e) {
         System.out.println(e.toString());  // print the error message
-    error_skipto(PuntoComa);
+    error_skipto(PuntoComa, FIN, EOF);
     }
   }
 
@@ -673,7 +673,7 @@ void AsignaCADENA():{}
     }
   }
 
-  void error_skipto(int kind) throws ParseException {
+  void error_skipto(int puntocoma, int fincode, int finfile) throws ParseException {
   Token t;
   sentencias_inco = sentencias_inco +1;
   // consume tokens all the way up to a token of "kind" - use a do-while loop
@@ -683,7 +683,7 @@ void AsignaCADENA():{}
   do {
     t = getNextToken();
   }
-  while (t.kind != (kind|EOF.kind));
+  while ( (t.kind !=puntocoma)||(t.kind !=fincode)||(t.kind !=finfile));
   }
 
   final public void error() throws ParseException {

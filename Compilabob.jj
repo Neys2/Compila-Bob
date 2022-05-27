@@ -140,7 +140,7 @@ Declaracion()   // Declaracion de Variables k
 }
 catch (ParseException e) {
 	System.out.println(e.toString());  // print the error message
-    error_skipto(PuntoComa);
+    error_skipto(PuntoComa, FIN, EOF);
   } 
 
 }
@@ -318,9 +318,7 @@ void Variable_dato():{}
 } 
 
 JAVACODE
-void error_skipto(int kind) {
- 
-
+void error_skipto(int puntocoma, int fincode, int finfile) {
   Token t;
   sentencias_inco = sentencias_inco +1;
   // consume tokens all the way up to a token of "kind" - use a do-while loop
@@ -330,7 +328,7 @@ void error_skipto(int kind) {
   do {
     t = getNextToken();
   }
-  while (t.kind != (kind|EOF.kind|FIN.kind));
+  while ( (t.kind !=puntocoma)||(t.kind !=fincode)||(t.kind !=finfile));
 }
 
 void error():  

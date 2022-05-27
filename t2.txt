@@ -10,6 +10,6 @@ E_n: 45;
 		cade : recibir;
 		val : 4;
 	 
-	};     
+	}     
  
 } ejecutar_coatl
