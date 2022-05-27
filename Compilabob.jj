@@ -129,12 +129,30 @@ void sentencias():{}
 LOOKAHEAD(2) 
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
-| Asignacion() <PuntoComa> //Asignacion de valores 
+|( Asignacion() <PuntoComa>) //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 | Decide()
+| Muestra()
 
 
 // | Aqui ponen las demas sentencias
+}
+
+void Muestra():{}
+{
+
+	<ESCRIBIR> <ParenIzq>  Mensaje()   <ParenDer> <PuntoComa>
+}
+
+void Mensaje():{}{
+
+	Concatenacion() | {}
+}
+
+void Concatenacion():{}{
+
+  ( LOOKAHEAD(2)
+  	(<IDENTIFICADOR>|<CADENAS>) <MAS> Concatenacion() | (<IDENTIFICADOR>|<CADENAS>)) 
 }
 
 //########  DECIDE IF-ELSE ##########
@@ -160,14 +178,19 @@ void ELSE():{}
 	sentencias()|error())* <SepDer>
 }
 
-
+// ############## CICLOS #############
 
 void Ciclo_RepitoHastaQue():{}
 {
 	<CicloIterado> <ParenIzq> <IDENTIFICADOR> <COMA> (<IDENTIFICADOR>|DataType()) <ParenDer> <ASIGNACION> 
-	<SepIzq> sentencias() <SepDer> 
+	<SepIzq> (sentencias())* <SepDer> 
 
 }
+
+/*void Ciclo_RepitoMientras():{}
+{
+
+} */
  
 // DECLARACION DE VARIABLES 
 void Declaracion():{}
@@ -186,23 +209,59 @@ void AsignacionD():{}
 void Asignacion():{} 
 {  <IDENTIFICADOR> <ASIGNACION> ( <LEER>|Expresion() ) 
 } 
-// GRAMATICA PARA EXPRESIONES MATEMATICAS DESPUES DE UNA ASIGNACION O DECLARACION
+//###### GRAMATICA PARA EXPRESIONES MATEMATICAS DESPUES DE UNA ASIGNACION O DECLARACION
+
 void Expresion():{} 
 {   
-	(<MENOS>|{}) Termino() (((<MAS>|<MENOS>) Expresion())  |  {})  
+ 
+	Termino() ((<MAS>|<MENOS>) Termino())*
+
+	  
 } 
 
 // Epsilon option ---> | {}
 
 void Termino():{}
-{   LOOKAHEAD(2)
-	Factor()((<MULTI>|<DIV>|<MODULO> ) Termino() )
-	| Factor()
+{  
+	Factor() ((<MULTI>|<DIV>|<MODULO>) Factor())*
+}
+void Factor():{}
+{
+	(<MENOS> Factor()) | Primario()
+ 
+}
+
+void Primario():{}
+{
+	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )
+}
+/*
+void Expresion():{} 
+{   
+ 
+	(<MENOS> |{})   
+	  (LOOKAHEAD(2) 
+	  (Termino()(<MAS>|<MENOS>) Expresion())
+	  | Termino() )
+	
+
+	//(<MENOS>|{}) Termino() (((<MAS>|<MENOS>) Expresion())  |  {})  
+} 
+
+// Epsilon option ---> | {}
+
+void Termino():{}
+{  ( LOOKAHEAD(2)
+	(Factor()((<MULTI>|<DIV>|<MODULO> ) Termino() ))
+	| Factor())
 }
 void Factor():{}
 {
 	((<ParenIzq>	Expresion() <ParenDer>)  | (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> ) // (<PuntoComa>|{})
 }
+*/
+
+
 
 // ############## OPERACIONES DE COMPARACION PARA IF O CICLOS  ####################
 void OpComparacion():{}{
