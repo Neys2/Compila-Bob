@@ -131,6 +131,7 @@ LOOKAHEAD(2)
 Declaracion()   // Declaracion de Variables k
 |( Asignacion() <PuntoComa>) //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
+| Ciclo_RepitoMientras()
 | Decide()
 | Muestra()
 
@@ -163,7 +164,7 @@ IF()(
 	ELSE()|{})
 
 }
-void IF():{ System.out.println("IF inicial");}
+void IF():{ }
 {
 	<IF> <ParenIzq> OpComparacion() <ParenDer>  <ASIGNACION>  <SepIzq>
 	(	LOOKAHEAD(2)
@@ -187,10 +188,12 @@ void Ciclo_RepitoHastaQue():{}
 
 }
 
-/*void Ciclo_RepitoMientras():{}
+ void Ciclo_RepitoMientras():{}
 {
-
-} */
+	<CicloLimit> <ASIGNACION> <SepIzq> 
+	(sentencias())* 
+	<SepDer> <CicloWhile> <ParenIzq> OpComparacion() <ParenDer> <PuntoComa>
+} 
  
 // DECLARACION DE VARIABLES 
 void Declaracion():{}
@@ -268,18 +271,14 @@ void OpComparacion():{}{
 		ExpresionL() Comparadores() ExpresionL()
 }
 
-void ExpresionL():{
-	System.out.println("**ExpresionL**");
-} 
+void ExpresionL():{} 
 {   LOOKAHEAD(2) 
 	(  FactorL() Logicos() ExpresionL()  ) 
 	  
 	|  FactorL()
 } 
 
-void FactorL():{
-	System.out.println("**Factor L**");
-}
+void FactorL():{}
 {
 	(  (<NUMERO> | <NUMDECIMAL>) | <IDENTIFICADOR> )
 }
