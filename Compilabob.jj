@@ -131,12 +131,13 @@ try {
 (LOOKAHEAD(2) 
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
-|( Asignacion() (<PuntoComa>|errorFinlinea())) //Asignacion de valores 
+|( Asignacion()( <PuntoComa>|errorFinlinea())) //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 | Ciclo_RepitoMientras()
 | Decide()
 | Muestra()
 |error()
+|errorDOBLElinea()
   )
 }
 catch (ParseException e) {
@@ -186,11 +187,6 @@ void ELSE():{}
 	sentencias() )*<SepDer> (<PuntoComa>|errorFinlinea())
 }
 
-void PuntoyComa():{}
-{
-	(LOOKAHEAD(3)
-	<PuntoComa>|errorFinlinea())
-}
 
 // ############## CICLOS #############
 
@@ -205,7 +201,7 @@ void Ciclo_RepitoHastaQue():{}
 {
 	<CicloLimit> <ASIGNACION> <SepIzq> 
 	(sentencias())* 
-	<SepDer> <CicloWhile> <ParenIzq> OpComparacion() <ParenDer> 
+	<SepDer> <CicloWhile> <ParenIzq> OpComparacion() <ParenDer> (<PuntoComa>|errorFinlinea())
 } 
  
 // DECLARACION DE VARIABLES 
@@ -351,11 +347,33 @@ void error():
  
 void errorFinlinea():{
 	sentencias_inco++;
-	//System.out.println("epsilon");
 	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 }{
 	 
-	(<PuntoComa>(<PuntoComa>)+)|{} 
+	{} 
+	 
+}
+void errorDOBLElinea():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 <PuntoComa>  
+}
+/*
+void errorNOlinea():{
+ 
+	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 {} 
 	 
 }
 
+void errorDOBLElinea():{
+ 
+	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 <PuntoComa>  
+} */

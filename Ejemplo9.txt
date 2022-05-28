@@ -1,13 +1,13 @@
 compilar_coatl{
-        E_ valrr : 1+44*5+39	#<-----ERRROR FALTA ;
+        E_ valrr : 1;	#<-----ERRROR FALTA ;
         #Se declara y asigna la variable "n"
-	muestra("fdfd");;
+	muestra("fdfd");
 	
 	 
 	repito : {
 		 
 		n: n+1;             
-		muestra("MI CARA") #<-----ERRROR FALTA ;
+		muestra("MI CARA"); #<-----ERRROR FALTA ;
 
 	}mientras(n < 45|num2);  
 }ejecutar_coatl

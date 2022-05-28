@@ -35,6 +35,7 @@ public class Compilabob implements CompilabobConstants {
       case CicloIterado:
       case CicloLimit:
       case ESCRIBIR:
+      case PuntoComa:
       case ENTERO:
       case FLOTANTE:
       case ID_CADENA:
@@ -82,6 +83,9 @@ public class Compilabob implements CompilabobConstants {
           break;
         case UNKNOW:
           error();
+          break;
+        case PuntoComa:
+          errorDOBLElinea();
           break;
         default:
           jj_la1[2] = jj_gen;
@@ -187,6 +191,7 @@ public class Compilabob implements CompilabobConstants {
       case CicloIterado:
       case CicloLimit:
       case ESCRIBIR:
+      case PuntoComa:
       case ENTERO:
       case FLOTANTE:
       case ID_CADENA:
@@ -214,6 +219,7 @@ public class Compilabob implements CompilabobConstants {
       case CicloIterado:
       case CicloLimit:
       case ESCRIBIR:
+      case PuntoComa:
       case ENTERO:
       case FLOTANTE:
       case ID_CADENA:
@@ -270,6 +276,7 @@ public class Compilabob implements CompilabobConstants {
       case CicloIterado:
       case CicloLimit:
       case ESCRIBIR:
+      case PuntoComa:
       case ENTERO:
       case FLOTANTE:
       case ID_CADENA:
@@ -306,6 +313,7 @@ public class Compilabob implements CompilabobConstants {
       case CicloIterado:
       case CicloLimit:
       case ESCRIBIR:
+      case PuntoComa:
       case ENTERO:
       case FLOTANTE:
       case ID_CADENA:
@@ -705,25 +713,14 @@ public class Compilabob implements CompilabobConstants {
 
   final public void errorFinlinea() throws ParseException {
         sentencias_inco++;
-        //System.out.println("epsilon");
         System.out.println("Error sint\u00c3\u00a1ctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
-    if (jj_2_7(2)) {
-      jj_consume_token(PuntoComa);
-      label_8:
-      while (true) {
-        jj_consume_token(PuntoComa);
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case PuntoComa:
-          ;
-          break;
-        default:
-          jj_la1[33] = jj_gen;
-          break label_8;
-        }
-      }
-    } else {
 
-    }
+  }
+
+  final public void errorDOBLElinea() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00c3\u00a1ctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+    jj_consume_token(PuntoComa);
   }
 
   private boolean jj_2_1(int xla) {
@@ -768,19 +765,12 @@ public class Compilabob implements CompilabobConstants {
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_2_7(int xla) {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_7(); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(6, xla); }
-  }
-
-  private boolean jj_3R_14() {
-    if (jj_3R_15()) return true;
+  private boolean jj_3R_13() {
+    if (jj_3R_14()) return true;
     return false;
   }
 
-  private boolean jj_3R_15() {
+  private boolean jj_3R_14() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(37)) {
@@ -796,38 +786,27 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
+  private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_14()) {
+    if (jj_3R_13()) {
     jj_scanpos = xsp;
     if (jj_scan_token(42)) return true;
     }
     return false;
   }
 
-  private boolean jj_3_7() {
-    if (jj_scan_token(PuntoComa)) return true;
-    Token xsp;
-    if (jj_scan_token(17)) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_scan_token(17)) { jj_scanpos = xsp; break; }
-    }
+  private boolean jj_3_3() {
+    if (jj_3R_9()) return true;
     return false;
   }
 
-  private boolean jj_3R_13() {
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_6()) {
@@ -843,7 +822,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_12() {
+  private boolean jj_3R_11() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(25)) {
@@ -858,7 +837,7 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
-  private boolean jj_3R_10() {
+  private boolean jj_3R_9() {
     if (jj_scan_token(ELSE)) return true;
     if (jj_scan_token(SepIzq)) return true;
     return false;
@@ -876,13 +855,13 @@ public class Compilabob implements CompilabobConstants {
   }
 
   private boolean jj_3_4() {
+    if (jj_3R_10()) return true;
     if (jj_3R_11()) return true;
-    if (jj_3R_12()) return true;
     return false;
   }
 
-  private boolean jj_3R_9() {
-    if (jj_3R_13()) return true;
+  private boolean jj_3R_8() {
+    if (jj_3R_12()) return true;
     if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
@@ -906,7 +885,7 @@ public class Compilabob implements CompilabobConstants {
   private boolean jj_lookingAhead = false;
   private boolean jj_semLA;
   private int jj_gen;
-  final private int[] jj_la1 = new int[34];
+  final private int[] jj_la1 = new int[33];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -914,12 +893,12 @@ public class Compilabob implements CompilabobConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xb40,0x20000,0xb40,0x20000,0x0,0x0,0x0,0x0,0xb40,0xb40,0x20000,0x0,0xb40,0x20000,0xb40,0x20000,0x80000,0x20000,0x40003000,0x40003000,0x60000000,0x60000000,0x80000000,0x80000000,0x40002000,0x2000,0x0,0x0,0x0,0x9f00000,0x6000000,0xc0000000,0x0,0x20000,};
+      jj_la1_0 = new int[] {0x20b40,0x20000,0x20b40,0x20000,0x0,0x0,0x0,0x0,0x20b40,0x20b40,0x20000,0x0,0x20b40,0x20000,0x20b40,0x20000,0x80000,0x20000,0x40003000,0x40003000,0x60000000,0x60000000,0x80000000,0x80000000,0x40002000,0x2000,0x0,0x0,0x0,0x9f00000,0x6000000,0xc0000000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0xd98,0x0,0xc00,0x0,0x404,0x404,0x404,0x404,0xd98,0xd98,0x0,0x664,0xd98,0x0,0xd98,0x0,0x0,0x0,0x664,0x664,0x0,0x0,0x3,0x3,0x664,0x664,0x664,0x664,0x264,0x0,0x0,0x3,0x190,0x0,};
+      jj_la1_1 = new int[] {0xd98,0x0,0xc00,0x0,0x404,0x404,0x404,0x404,0xd98,0xd98,0x0,0x664,0xd98,0x0,0xd98,0x0,0x0,0x0,0x664,0x664,0x0,0x0,0x3,0x3,0x664,0x664,0x664,0x664,0x264,0x0,0x0,0x3,0x190,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[7];
+  final private JJCalls[] jj_2_rtns = new JJCalls[6];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -934,7 +913,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -949,7 +928,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -960,7 +939,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -971,7 +950,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -981,7 +960,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -991,7 +970,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 34; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1111,7 +1090,7 @@ public class Compilabob implements CompilabobConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 34; i++) {
+    for (int i = 0; i < 33; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1150,7 +1129,7 @@ public class Compilabob implements CompilabobConstants {
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 6; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -1163,7 +1142,6 @@ public class Compilabob implements CompilabobConstants {
             case 3: jj_3_4(); break;
             case 4: jj_3_5(); break;
             case 5: jj_3_6(); break;
-            case 6: jj_3_7(); break;
           }
         }
         p = p.next;

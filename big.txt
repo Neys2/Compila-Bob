@@ -1,5 +1,5 @@
 compilar_coatl{
-	E_ num0;
+	E_ num0
 E_ num1 : -1;
  num2 : recibir;
 D_ num3 : 3+5;
