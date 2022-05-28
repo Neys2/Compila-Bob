@@ -19,12 +19,64 @@ public class Compilabob implements CompilabobConstants {
         }
 
   final public void Codigo() throws ParseException {
-    jj_consume_token(INICIO);
-    jj_consume_token(SepIzq);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case INICIO:
+      jj_consume_token(INICIO);
+      break;
+    default:
+      jj_la1[0] = jj_gen;
+      ErrorNoinicio();
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case SepIzq:
+      jj_consume_token(SepIzq);
+      break;
+    default:
+      jj_la1[1] = jj_gen;
+      ErrorNoSepINICIO();
+    }
     Cuerpo();
-    jj_consume_token(SepDer);
-    jj_consume_token(FIN);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case SepDer:
+      jj_consume_token(SepDer);
+      break;
+    default:
+      jj_la1[2] = jj_gen;
+      ErrorNoSepFINAL();
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case FIN:
+      jj_consume_token(FIN);
+      break;
+    default:
+      jj_la1[3] = jj_gen;
+      ErrorNOFIN();
+    }
     jj_consume_token(0);
+  }
+
+  final public void ErrorNoinicio() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNoSepINICIO() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNoSepFINAL() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNOFIN() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
   }
 
   final public void Cuerpo() throws ParseException {
@@ -45,7 +97,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[0] = jj_gen;
+        jj_la1[4] = jj_gen;
         break label_1;
       }
       sentencias();
@@ -65,7 +117,7 @@ public class Compilabob implements CompilabobConstants {
             jj_consume_token(PuntoComa);
             break;
           default:
-            jj_la1[1] = jj_gen;
+            jj_la1[5] = jj_gen;
             errorFinlinea();
           }
           break;
@@ -88,7 +140,7 @@ public class Compilabob implements CompilabobConstants {
           errorDOBLElinea();
           break;
         default:
-          jj_la1[2] = jj_gen;
+          jj_la1[6] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -109,7 +161,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(PuntoComa);
       break;
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[7] = jj_gen;
       errorFinlinea();
     }
   }
@@ -121,7 +173,7 @@ public class Compilabob implements CompilabobConstants {
       Concatenacion();
       break;
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[8] = jj_gen;
 
     }
   }
@@ -136,7 +188,7 @@ public class Compilabob implements CompilabobConstants {
         jj_consume_token(CADENAS);
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -154,13 +206,13 @@ public class Compilabob implements CompilabobConstants {
           jj_consume_token(CADENAS);
           break;
         default:
-          jj_la1[6] = jj_gen;
+          jj_la1[10] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[11] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -201,7 +253,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[12] = jj_gen;
         break label_2;
       }
       sentencias();
@@ -229,7 +281,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[13] = jj_gen;
         break label_3;
       }
       sentencias();
@@ -240,7 +292,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(PuntoComa);
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[14] = jj_gen;
       errorFinlinea();
     }
   }
@@ -262,7 +314,7 @@ public class Compilabob implements CompilabobConstants {
       DataType();
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[15] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -286,7 +338,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[16] = jj_gen;
         break label_4;
       }
       sentencias();
@@ -297,7 +349,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(PuntoComa);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[17] = jj_gen;
       errorFinlinea();
     }
   }
@@ -323,7 +375,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[14] = jj_gen;
+        jj_la1[18] = jj_gen;
         break label_5;
       }
       sentencias();
@@ -338,7 +390,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(PuntoComa);
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[19] = jj_gen;
       errorFinlinea();
     }
   }
@@ -353,7 +405,7 @@ public class Compilabob implements CompilabobConstants {
       AsignacionD();
       break;
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[20] = jj_gen;
 
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -361,7 +413,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(PuntoComa);
       break;
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[21] = jj_gen;
       errorFinlinea();
     }
   }
@@ -382,7 +434,7 @@ public class Compilabob implements CompilabobConstants {
       Expresion();
       break;
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[22] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -406,7 +458,7 @@ public class Compilabob implements CompilabobConstants {
       Expresion();
       break;
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[23] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -423,7 +475,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[24] = jj_gen;
         break label_6;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -434,7 +486,7 @@ public class Compilabob implements CompilabobConstants {
         jj_consume_token(MENOS);
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -454,7 +506,7 @@ public class Compilabob implements CompilabobConstants {
         ;
         break;
       default:
-        jj_la1[22] = jj_gen;
+        jj_la1[26] = jj_gen;
         break label_7;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -468,7 +520,7 @@ public class Compilabob implements CompilabobConstants {
         jj_consume_token(MODULO);
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[27] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -491,7 +543,7 @@ public class Compilabob implements CompilabobConstants {
       Primario();
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[28] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -514,7 +566,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(IDENTIFICADOR);
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[29] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -542,7 +594,7 @@ public class Compilabob implements CompilabobConstants {
         FactorL();
         break;
       default:
-        jj_la1[26] = jj_gen;
+        jj_la1[30] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -561,7 +613,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(IDENTIFICADOR);
       break;
     default:
-      jj_la1[27] = jj_gen;
+      jj_la1[31] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -586,7 +638,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(CADENAS);
       break;
     default:
-      jj_la1[28] = jj_gen;
+      jj_la1[32] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -613,7 +665,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(NOTEQ);
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[33] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -628,7 +680,7 @@ public class Compilabob implements CompilabobConstants {
       jj_consume_token(AND);
       break;
     default:
-      jj_la1[30] = jj_gen;
+      jj_la1[34] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -652,7 +704,7 @@ public class Compilabob implements CompilabobConstants {
         jj_consume_token(MULTI);
         break;
       default:
-        jj_la1[31] = jj_gen;
+        jj_la1[35] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -674,7 +726,7 @@ public class Compilabob implements CompilabobConstants {
         jj_consume_token(BOOLEANO);
         break;
       default:
-        jj_la1[32] = jj_gen;
+        jj_la1[36] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -765,47 +817,6 @@ public class Compilabob implements CompilabobConstants {
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_3R_13() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(37)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(38)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(41)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(34)) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_10() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_13()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(42)) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -871,6 +882,47 @@ public class Compilabob implements CompilabobConstants {
     return false;
   }
 
+  private boolean jj_3R_13() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(37)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(38)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(41)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(34)) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_13()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(42)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public CompilabobTokenManager token_source;
   JavaCharStream jj_input_stream;
@@ -885,7 +937,7 @@ public class Compilabob implements CompilabobConstants {
   private boolean jj_lookingAhead = false;
   private boolean jj_semLA;
   private int jj_gen;
-  final private int[] jj_la1 = new int[33];
+  final private int[] jj_la1 = new int[37];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -893,10 +945,10 @@ public class Compilabob implements CompilabobConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20b40,0x20000,0x20b40,0x20000,0x0,0x0,0x0,0x0,0x20b40,0x20b40,0x20000,0x0,0x20b40,0x20000,0x20b40,0x20000,0x80000,0x20000,0x40003000,0x40003000,0x60000000,0x60000000,0x80000000,0x80000000,0x40002000,0x2000,0x0,0x0,0x0,0x9f00000,0x6000000,0xc0000000,0x0,};
+      jj_la1_0 = new int[] {0x10,0x8000,0x10000,0x20,0x20b40,0x20000,0x20b40,0x20000,0x0,0x0,0x0,0x0,0x20b40,0x20b40,0x20000,0x0,0x20b40,0x20000,0x20b40,0x20000,0x80000,0x20000,0x40003000,0x40003000,0x60000000,0x60000000,0x80000000,0x80000000,0x40002000,0x2000,0x0,0x0,0x0,0x9f00000,0x6000000,0xc0000000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0xd98,0x0,0xc00,0x0,0x404,0x404,0x404,0x404,0xd98,0xd98,0x0,0x664,0xd98,0x0,0xd98,0x0,0x0,0x0,0x664,0x664,0x0,0x0,0x3,0x3,0x664,0x664,0x664,0x664,0x264,0x0,0x0,0x3,0x190,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0xd98,0x0,0xc00,0x0,0x404,0x404,0x404,0x404,0xd98,0xd98,0x0,0x664,0xd98,0x0,0xd98,0x0,0x0,0x0,0x664,0x664,0x0,0x0,0x3,0x3,0x664,0x664,0x664,0x664,0x264,0x0,0x0,0x3,0x190,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[6];
   private boolean jj_rescan = false;
@@ -913,7 +965,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -928,7 +980,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -939,7 +991,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -950,7 +1002,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -960,7 +1012,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -970,7 +1022,7 @@ public class Compilabob implements CompilabobConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 33; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 37; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1090,7 +1142,7 @@ public class Compilabob implements CompilabobConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 33; i++) {
+    for (int i = 0; i < 37; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

@@ -115,10 +115,41 @@ TOKEN:
 
  void Codigo():{} // Gramatica inicial que contiene el cuerpo basico del codigo
 {
-	<INICIO> <SepIzq>  //Palabra reservada de inicio
+	((<INICIO> |ErrorNoinicio())(<SepIzq> |ErrorNoSepINICIO())) //Palabra reservada de inicio
 	Cuerpo() // Conjunto de sentencias tipo; declaraciones, ciclos, decisiones, etc
-	<SepDer><FIN><EOF> // Palabra reservada de cierre
+	((<SepDer>|ErrorNoSepFINAL())(<FIN>|ErrorNOFIN()))<EOF> // Palabra reservada de cierre
 } 
+
+void ErrorNoinicio():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+
+void ErrorNoSepINICIO():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+void ErrorNoSepFINAL():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+void ErrorNOFIN():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+
 
 void Cuerpo():{} 
 { 
