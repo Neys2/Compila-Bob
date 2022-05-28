@@ -3,9 +3,9 @@ E_n: 45;
  
 	repito hasta que(n,50):{
  
-		n:n+1
+		n:n+1;
 		muestra(n);
-		num : 3
+		num : 3;
 		cade : recibir;
 		val : 4;
 	 

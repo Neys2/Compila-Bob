@@ -18,13 +18,14 @@ public class Compilabob {
 		try { 
 			compilador.Codigo(); 
 		}catch( Exception e ){   
-			System.out.println("\n\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
+			System.out.println("\nEXCEPTION e MAIN\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
 		}
 		catch( TokenMgrError e ) { 
 			System.out.println( "Error de Token" );
 		} 
 		System.out.println(compilador.errormsg);
 		//System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+		System.out.println("\nFINAL PRINT\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
 		 System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico y sint"+"\u00e1"+"ctico ejecutados con "+"\u00e9"+"xito");  
 	}    
 }   
@@ -121,7 +122,7 @@ TOKEN:
 
 void Cuerpo():{} 
 { 
-	(sentencias())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
+(sentencias())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
 } 
 
 void sentencias():{} 
@@ -130,12 +131,13 @@ try {
 (LOOKAHEAD(2) 
  // PuntoComa toen separado debido a la variabilidad del codigo
 Declaracion()   // Declaracion de Variables k
-|( Asignacion() (<PuntoComa>|errorFinlinea())) //Asignacion de valores 
+|( Asignacion()( <PuntoComa>|errorFinlinea())) //Asignacion de valores 
 | Ciclo_RepitoHastaQue() 
 | Ciclo_RepitoMientras()
 | Decide()
 | Muestra()
-| error()
+|error()
+|errorDOBLElinea()
   )
 }
 catch (ParseException e) {
@@ -144,15 +146,6 @@ catch (ParseException e) {
   } 
 
 }
-/*
-void DeclaCADENA():{}
-{
-
-}
-void AsignaCADENA():{}
-{
-	
-} */
 
 void Muestra():{}
 {
@@ -174,7 +167,7 @@ void Concatenacion():{}{
 //########  DECIDE IF-ELSE ##########
 void Decide():{}
 {
-IF()( 
+IF() ( 
 	LOOKAHEAD(2)
 	ELSE()|{})
 
@@ -182,17 +175,18 @@ IF()(
 void IF():{ }
 {
 	<IF> <ParenIzq> OpComparacion() <ParenDer>  <ASIGNACION>  <SepIzq>
-	(	LOOKAHEAD(2)
-	sentencias()|error())*
+	(	 
+	sentencias() )*
 	<SepDer>
 }
 
 void ELSE():{}
 {
 	<ELSE> <SepIzq> 
-	(	LOOKAHEAD(2)
-	sentencias()|error())* <SepDer>
+	(	 
+	sentencias() )*<SepDer> (<PuntoComa>|errorFinlinea())
 }
+
 
 // ############## CICLOS #############
 
@@ -213,9 +207,7 @@ void Ciclo_RepitoHastaQue():{}
 // DECLARACION DE VARIABLES 
 void Declaracion():{}
 {  
-  Variable_dato() 
-	<IDENTIFICADOR> (
-		(<PuntoComa>|errorFinlinea())| (<ASIGNACION>  AsignacionD() (<PuntoComa>|errorFinlinea())) ) 
+  Variable_dato() <IDENTIFICADOR> ((<ASIGNACION>  AsignacionD())|{}) (<PuntoComa>|errorFinlinea())
 } 
 // ASIGNACION DE VALORES DESPUES DE UNA DECLARACION
 void AsignacionD():{} 
@@ -319,7 +311,7 @@ void Variable_dato():{}
 JAVACODE
 void error_skipto(int puntocoma, int fincode, int finfile) {
   Token t;
-  sentencias_inco = sentencias_inco +1;
+  sentencias_inco++;
   // consume tokens all the way up to a token of "kind" - use a do-while loop
   // rather than a while because the current token is the one immediately before
   // the erroneous token (in our case the token immediately before what should
@@ -327,6 +319,11 @@ void error_skipto(int puntocoma, int fincode, int finfile) {
   do {
     t = getNextToken();
 	System.out.println("ESTOY SALTANDO ------------ "+t.image);
+	if(t.image == ";"){
+		System.out.println("\t#########################");
+		System.out.println("DEJARE DE SALTAR");
+		System.out.println("\t#########################");
+	}
   }
   while ( (t.kind !=puntocoma)&&(t.kind !=fincode)&&(t.kind !=finfile));
 }
@@ -345,15 +342,38 @@ void error():
 	errores = "Simbolo: " + t.image + " no reconocido en la línea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n"; 
 	errormsg = errormsg+errores;
 } 
-} 
-
-JAVACODE
-void errorFinlinea(){
-	a++;
-	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 }
 
+ 
+void errorFinlinea():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	{} 
+	 
+}
+void errorDOBLElinea():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 <PuntoComa>  
+}
 /*
+void errorNOlinea():{
+ 
+	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 {} 
+	 
+}
 
-*/
-
+void errorDOBLElinea():{
+ 
+	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	 <PuntoComa>  
+} */
