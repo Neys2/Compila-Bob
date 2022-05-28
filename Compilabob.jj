@@ -115,6 +115,7 @@ TOKEN:
 
  void Codigo():{} // Gramatica inicial que contiene el cuerpo basico del codigo
 {
+	/*
 	(	LOOKAHEAD(2147483647)
 		(<INICIO><SepIzq>  
 		sentencias() 
@@ -122,15 +123,15 @@ TOKEN:
 	|	
 		errorE()
 	 )
-
-	/*try{
+*/
+	try{
 		<INICIO><SepIzq>  
 		Cuerpo() 
 		<SepDer><FIN><EOF> 
 	}catch (ParseException e) {
 		System.out.println(e.toString());
-		errorE();
-  } */
+		error_skipto(PuntoComa, FIN, EOF);
+  } 
 	
 } 
 
@@ -335,6 +336,7 @@ void error_skipto(int puntocoma, int fincode, int finfile) {
 		System.out.println("\t#########################");
 		System.out.println("DEJARE DE SALTAR");
 		System.out.println("\t#########################");
+		
 	}
   }
   while ( (t.kind !=puntocoma)&&(t.kind !=fincode)&&(t.kind !=finfile));
