@@ -32,6 +32,30 @@ public class Compilabob implements CompilabobConstants {
     }
   }
 
+  final public void ErrorNoinicio() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00e1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNoSepINICIO() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00e1ctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNoSepFINAL() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00e1ctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
+  final public void ErrorNOFIN() throws ParseException {
+        sentencias_inco++;
+        System.out.println("Error sint\u00e1ctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+
+  }
+
   final public void Cuerpo() throws ParseException {
     label_1:
     while (true) {
@@ -820,34 +844,6 @@ void errorDOBLElinea():{
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_3_4() {
-    if (jj_3R_10()) return true;
-    if (jj_3R_11()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(42)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(34)) return true;
-    }
-    if (jj_scan_token(MAS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  private boolean jj_3_5() {
-    if (jj_scan_token(MAS)) return true;
-    return false;
-  }
-
   private boolean jj_3R_13() {
     if (jj_3R_14()) return true;
     return false;
@@ -923,6 +919,34 @@ void errorDOBLElinea():{
   private boolean jj_3R_9() {
     if (jj_scan_token(ELSE)) return true;
     if (jj_scan_token(SepIzq)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(42)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(34)) return true;
+    }
+    if (jj_scan_token(MAS)) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    if (jj_3R_10()) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
+  private boolean jj_3_5() {
+    if (jj_scan_token(MAS)) return true;
     return false;
   }
 

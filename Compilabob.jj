@@ -135,6 +135,37 @@ TOKEN:
 	
 } 
 
+void ErrorNoinicio():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+
+void ErrorNoSepINICIO():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+void ErrorNoSepFINAL():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+void ErrorNOFIN():{
+	sentencias_inco++;
+	System.out.println("Error sintáctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+}{
+	 
+	  {} 
+}
+
+
 void Cuerpo():{} 
 { 
 (sentencias())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
