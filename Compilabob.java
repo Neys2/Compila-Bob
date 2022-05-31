@@ -6,8 +6,14 @@ public class Compilabob implements CompilabobConstants {
                 Compilabob compilador = new Compilabob(System.in);
                 try {
                         compilador.Codigo();
-                }catch( Exception e ){
+                }catch( ParseException ex ){
                         System.out.println("\nEXCEPTION e MAIN\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
+                        try{
+                                compilador.error_skipto(17,5,0);
+                        }catch(ParseException e){
+                                System.out.println("no sirvio");
+                        }
+
                 }
                 catch( TokenMgrError e ) {
                         System.out.println( "Error de Token" );
@@ -21,7 +27,7 @@ public class Compilabob implements CompilabobConstants {
 
         }
 
-//------------------------------- AN√ÅLISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
+//------------------------------- AN√?LISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
 
 // Gramatica inicial que contiene el cuerpo basico del codigo
   final public void Codigo() throws ParseException {
@@ -740,45 +746,45 @@ public class Compilabob implements CompilabobConstants {
         String errores = " ";
         Token t;
     t = jj_consume_token(UNKNOW);
-        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n";
+        errores = "Simbolo: " + t.image + " no reconocido en la l\u00c3\u00adnea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n";
         errormsg = errormsg+errores;
         sentencias_inco++;
   }
 
   final public void errorFinlinea() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
+        System.out.println("Error sint\u00c3\u00a1ctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
 
   }
 
   final public void errorDOBLElinea() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: Hay mas de un ';'  en la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
+        System.out.println("Error sint\u00c3\u00a1ctico: Hay mas de un ';'  en la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
     jj_consume_token(PuntoComa);
   }
 
 //GRAMATICAS DE ERROR PARA LA ESTRUCTURA DEL CODIGO COATL
   final public void ErrorNoinicio() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).endColumn);
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).endColumn);
 
   }
 
   final public void ErrorNoSepINICIO() throws ParseException {
-        System.out.println("Error sint\u00e1ctico: No hay llave izquierda \"{\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).beginColumn);
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay llave izquierda \"{\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).beginColumn);
         sentencias_inco++;
 
   }
 
   final public void ErrorNoSepFINAL() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay llave derecha \"}\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 
   }
 
   final public void ErrorNOFIN() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+        System.out.println("Error sint\u00c3\u00a1ctico: No hay palabra de cierre\"ejecutar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 
   }
 
@@ -824,46 +830,9 @@ public class Compilabob implements CompilabobConstants {
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_3R_12() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_6()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(36)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(39)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(40)) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(25)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(26)) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3_6() {
-    if (jj_scan_token(ENTERO)) return true;
-    return false;
-  }
-
   private boolean jj_3R_9() {
     if (jj_scan_token(ELSE)) return true;
     if (jj_scan_token(SepIzq)) return true;
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    if (jj_3R_10()) return true;
-    if (jj_3R_11()) return true;
     return false;
   }
 
@@ -875,6 +844,12 @@ public class Compilabob implements CompilabobConstants {
     if (jj_scan_token(34)) return true;
     }
     if (jj_scan_token(MAS)) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    if (jj_3R_10()) return true;
+    if (jj_3R_11()) return true;
     return false;
   }
 
@@ -927,6 +902,37 @@ public class Compilabob implements CompilabobConstants {
 
   private boolean jj_3_1() {
     if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_6()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(36)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(39)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(40)) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(25)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(26)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_6() {
+    if (jj_scan_token(ENTERO)) return true;
     return false;
   }
 

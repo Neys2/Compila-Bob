@@ -129,6 +129,8 @@ void Cuerpo():{}
 (sentencias())* 
 } 
 
+
+
 // metodo sentencias, lee todas las gramaticas que pueden ser reconocidas por el compilador
 void sentencias():{} 
 { 
