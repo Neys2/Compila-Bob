@@ -12,12 +12,18 @@ public class Compilabob implements CompilabobConstants {
                 catch( TokenMgrError e ) {
                         System.out.println( "Error de Token" );
                 }
-                System.out.println(compilador.errormsg);
-                //System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+                if(compilador.errormsg != "\n" && compilador.sentencias_inco != 0){
+                        System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico y sint"+"\u00e1"+"ctico ejecutados con "+"\u00e9"+"xito");
+                }else{
+                        System.out.println(compilador.errormsg);
+                }
                 System.out.println("\nFINAL PRINT\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
-                 System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico y sint"+"\u00e1"+"ctico ejecutados con "+"\u00e9"+"xito");
+
         }
 
+//------------------------------- ANÁLISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
+
+// Gramatica inicial que contiene el cuerpo basico del codigo
   final public void Codigo() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INICIO:
@@ -55,6 +61,7 @@ public class Compilabob implements CompilabobConstants {
     jj_consume_token(0);
   }
 
+// método cuerpo, lee un conjunto de sentencias tamaño n
   final public void Cuerpo() throws ParseException {
     label_1:
     while (true) {
@@ -80,6 +87,7 @@ public class Compilabob implements CompilabobConstants {
     }
   }
 
+// metodo sentencias, lee todas las gramaticas que pueden ser reconocidas por el compilador
   final public void sentencias() throws ParseException {
     try {
       if (jj_2_1(2)) {
@@ -122,7 +130,7 @@ public class Compilabob implements CompilabobConstants {
         }
       }
     } catch (ParseException e) {
-        System.out.println(e.toString());  // print the error message
+        System.out.println(e.toString());  //imprime el mensaje de error
     error_skipto(PuntoComa, FIN, EOF);
     }
   }
@@ -470,7 +478,7 @@ public class Compilabob implements CompilabobConstants {
     }
   }
 
-// Epsilon option ---> | {}
+// Epsilon  ---> | {}
   final public void Termino() throws ParseException {
     Factor();
     label_7:
@@ -595,10 +603,10 @@ public class Compilabob implements CompilabobConstants {
     }
   }
 
-// Epsilon option ---> | {}
+// Epsilon ---> | {}
 
 
- // DATOS Y OPERADORES USADOS EN SENTENCIAS
+// DATOS Y OPERADORES USADOS EN SENTENCIAS
   final public void DataType() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMERO:
@@ -730,55 +738,35 @@ public class Compilabob implements CompilabobConstants {
 
   final public void error() throws ParseException {
         String errores = " ";
-        int linea, colum;
         Token t;
     t = jj_consume_token(UNKNOW);
-        linea = t.beginLine;
-        colum = t.endColumn;
-        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n";
+        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n";
         errormsg = errormsg+errores;
+        sentencias_inco++;
   }
 
   final public void errorFinlinea() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+        System.out.println("Error sint\u00e1ctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
 
   }
 
   final public void errorDOBLElinea() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+        System.out.println("Error sint\u00e1ctico: Hay mas de un ';'  en la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
     jj_consume_token(PuntoComa);
   }
-
-/*
-void errorNOlinea():{
- 
-	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
-}{
-	 
-	 {} 
-	 
-}
-
-void errorDOBLElinea():{
- 
-	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
-}{
-	 
-	 <PuntoComa>  
-} */
 
 //GRAMATICAS DE ERROR PARA LA ESTRUCTURA DEL CODIGO COATL
   final public void ErrorNoinicio() throws ParseException {
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+        System.out.println("Error sint\u00e1ctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).endColumn);
 
   }
 
   final public void ErrorNoSepINICIO() throws ParseException {
+        System.out.println("Error sint\u00e1ctico: No hay llave izquierda \"{\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).beginColumn);
         sentencias_inco++;
-        System.out.println("Error sint\u00e1ctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 
   }
 
@@ -836,26 +824,6 @@ void errorDOBLElinea():{
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_3R_10() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_13()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(42)) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -893,6 +861,12 @@ void errorDOBLElinea():{
     return false;
   }
 
+  private boolean jj_3_4() {
+    if (jj_3R_10()) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
   private boolean jj_3_2() {
     Token xsp;
     xsp = jj_scanpos;
@@ -901,12 +875,6 @@ void errorDOBLElinea():{
     if (jj_scan_token(34)) return true;
     }
     if (jj_scan_token(MAS)) return true;
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    if (jj_3R_10()) return true;
-    if (jj_3R_11()) return true;
     return false;
   }
 
@@ -939,6 +907,26 @@ void errorDOBLElinea():{
     }
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_13()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(42)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
     return false;
   }
 

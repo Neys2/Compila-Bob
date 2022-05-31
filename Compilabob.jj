@@ -23,10 +23,13 @@ public class Compilabob {
 		catch( TokenMgrError e ) { 
 			System.out.println( "Error de Token" );
 		} 
-		System.out.println(compilador.errormsg);
-		//System.out.println("Análisis Léxico ejecutado con éxito ! :D ---------------");
+		if(compilador.errormsg != "\n" && compilador.sentencias_inco != 0){
+			System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico y sint"+"\u00e1"+"ctico ejecutados con "+"\u00e9"+"xito");
+		}else{
+			System.out.println(compilador.errormsg);
+		}
 		System.out.println("\nFINAL PRINT\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
-		 System.out.println("An"+"\u00e1"+"lisis l"+"\u00e9"+"xico y sint"+"\u00e1"+"ctico ejecutados con "+"\u00e9"+"xito");  
+		  
 	}    
 }   
 PARSER_END(Compilabob)   
@@ -40,44 +43,44 @@ SKIP :
 
 TOKEN:   
 {   
-<INICIO: "compilar_coatl"> {System.out.println("INICIO  --> "+image);}  
-|<FIN: "ejecutar_coatl">  {System.out.println("FIN  --> "+image);}  
-|<IF: "decide"> {System.out.println("IF  --> "+image+"\r\n");}  
-|<ELSE: "sino"> {System.out.println("ELSE  --> "+image+"\r\n");}  
-|<CicloIterado: "repito hasta que">{System.out.println("CICLO ITERADO  --> "+image+"\r\n");}  
-|<CicloLimit: "repito"> {System.out.println("CICLO LIMITE --> "+image+"\r\n");}
-|<CicloWhile: "mientras"> {System.out.println("CICLO WHILE --> "+image+"\r\n");} 
-|<ESCRIBIR: "muestra">{System.out.println("PRINT --> "+image+"\r\n");}
-|<LEER:"recibir">{System.out.println("SCAN_DATA --> "+image+"\r\n");} 
+<INICIO: "compilar_coatl">  
+|<FIN: "ejecutar_coatl">  
+|<IF: "decide">   
+|<ELSE: "sino">   
+|<CicloIterado: "repito hasta que">  
+|<CicloLimit: "repito"> 
+|<CicloWhile: "mientras">  
+|<ESCRIBIR: "muestra">
+|<LEER:"recibir">
 }  
 
 TOKEN:   
 {   
-<ParenIzq: "("> {System.out.println("Parentesis Izquierdo --> "+image);} 
-|<ParenDer: ")"> {System.out.println("Parentesis Derecho --> "+image);}
-|<SepIzq: "{"> {System.out.println("Delimitador Izquierdo --> "+image);} 
-|<SepDer: "}"> {System.out.println("Delimitador Derecho --> "+image);} 
-|<PuntoComa: ";"> {System.out.println("PUNTO Y COMA --> "+image);} 
-|<COMA: ","> {System.out.println("COMA --> "+image);} 
+<ParenIzq: "(">  
+|<ParenDer: ")"> 
+|<SepIzq: "{">  
+|<SepDer: "}">  
+|<PuntoComa: ";"> 
+|<COMA: ",">  
 }  
 
 TOKEN:  
 {  
-<ASIGNACION: ":"> {System.out.println("Asignacion de valor -->"+image);}
-|<MENOR: "<"> {System.out.println("MENOR QUE --> "+image);} 
-|<MAYOR: ">"> {System.out.println("MAYOR QUE --> "+image);}
-|<MENOR_IGUAL: "<="> {System.out.println("MENOR O IGUAL -->"+image);}
-|<MAYOR_IGUAL: ">="> {System.out.println("MAYOR O IGUAL -->"+image);}
-|<IGUALDAD: "="> {System.out.println("IGUAL --> "+image);}
-|<OR: "|"> {System.out.println("OR --> "+image);} 
-|<AND: "&"> {System.out.println("AND --> "+image);}
-|<NOTEQ: "!="> {System.out.println("NOT EQUAL --> "+image);}
-|<NOT: "!"> {System.out.println("NOT --> "+image);}
-|<MAS: "+"> {System.out.println("SIGNO MAS --> "+image);} 
-|<MENOS: "-"> {System.out.println("SIGNO MENOS --> "+image);}
-|<DIV: "/"> {System.out.println("SIGNO DIVISION --> "+image);} 
-|<MODULO: "%"> {System.out.println("SIGNO MODULO --> "+image);} 
-|<MULTI: "*"> {System.out.println("SIGNO MULTIPLICACION --> "+image);}
+<ASIGNACION: ":"> 
+|<MENOR: "<">  
+|<MAYOR: ">"> 
+|<MENOR_IGUAL: "<="> 
+|<MAYOR_IGUAL: ">="> 
+|<IGUALDAD: "="> 
+|<OR: "|">  
+|<AND: "&"> 
+|<NOTEQ: "!="> 
+|<NOT: "!"> 
+|<MAS: "+"> 
+|<MENOS: "-"> 
+|<DIV: "/"> 
+|<MODULO: "%"> 
+|<MULTI: "*"> 
 }   
 // [("E_")(["a"-"z"|"A"-"Z"|"_"|"0"-"9"])+]  
 //"E_"(["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*)  
@@ -85,49 +88,48 @@ TOKEN:
 
 TOKEN: 
 {
-	<CADENAS: ("\""(~["\"","#","\n","\r","#","#","\r","\n"])*"\"")>{System.out.println("CADENA DE TEXTO --> "+image+"\r\n");}
+	<CADENAS: ("\""(~["\"","#","\n","\r","#","#","\r","\n"])*"\"")>
 }
 
 TOKEN: 
 { 
-<ENTERO: "E_">{System.out.println("ENTERO --> "+image+"\r\n");} 
-|<FLOTANTE: "D_">{System.out.println("FLOAT/DECIMAL --> "+image+"\r\n");} 
-|<NUMERO: (["0"-"9"])+>{System.out.println("NUMERO ENTERO --> "+image+"\r\n");}  
-|<NUMDECIMAL: (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+>{System.out.println("NUMERO DECIMAL --> "+image+"\r\n");} 
-|<ID_CADENA: "C_">{System.out.println("STRING --> "+image+"\r\n");} 
-|<BOOLEANO: "L_">{System.out.println("BOOLEANO --> "+image+"\r\n");} 
-|<EST_LOGIC:("falso"|"verdad")>{System.out.println("ESTADO LOGICO --> "+image+"\r\n");} 
+<ENTERO: "E_">
+|<FLOTANTE: "D_">
+|<NUMERO: (["0"-"9"])+>
+|<NUMDECIMAL: (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+> 
+|<ID_CADENA: "C_">
+|<BOOLEANO: "L_">
+|<EST_LOGIC:("falso"|"verdad")>
 }   
 
 TOKEN: 
 {
-	<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>{System.out.println("IDENTIFICADOR --> "+image+"\r\n");} 
+	<IDENTIFICADOR:["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*> 
 
 }
-// |<COMILLAS:"\"">{System.out.println("COMILLAS  --> "+image+"\r\n");}  
-
-// | ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"," "])* 
 
 TOKEN: 
 { 
 	<UNKNOW : ~[]>
 }
 
- void Codigo():{} // Gramatica inicial que contiene el cuerpo basico del codigo
+//------------------------------- ANÁLISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
+
+// Gramatica inicial que contiene el cuerpo basico del codigo
+ void Codigo():{} 
 {
-	((<INICIO> |ErrorNoinicio())(<SepIzq> |ErrorNoSepINICIO())) //Palabra reservada de inicio
-	Cuerpo() // Conjunto de sentencias tipo; declaraciones, ciclos, decisiones, etc
-	((<SepDer>|ErrorNoSepFINAL())(<FIN>|ErrorNOFIN()))<EOF> // Palabra reservada de cierre
+	((<INICIO> |ErrorNoinicio())(<SepIzq> |ErrorNoSepINICIO())) 
+	Cuerpo() 
+	((<SepDer>|ErrorNoSepFINAL())(<FIN>|ErrorNOFIN()))<EOF> 
 } 
 
-
-
-
+// método cuerpo, lee un conjunto de sentencias tamaño n
 void Cuerpo():{} 
 { 
-(sentencias())* //el cuerpoe s basicamente es un conjunto de sentencias tamaño n
+(sentencias())* 
 } 
 
+// metodo sentencias, lee todas las gramaticas que pueden ser reconocidas por el compilador
 void sentencias():{} 
 { 
 try {
@@ -144,7 +146,7 @@ Declaracion()   // Declaracion de Variables k
   )
 }
 catch (ParseException e) {
-	System.out.println(e.toString());  // print the error message
+	System.out.println(e.toString());  //imprime el mensaje de error
     error_skipto(PuntoComa, FIN, EOF);
   } 
 
@@ -221,8 +223,8 @@ void AsignacionD():{}
 void Asignacion():{} 
 {  <IDENTIFICADOR> <ASIGNACION> ( <LEER>|Expresion() ) 
 } 
-//###### GRAMATICA PARA EXPRESIONES MATEMATICAS DESPUES DE UNA ASIGNACION O DECLARACION
 
+//###### GRAMATICA PARA EXPRESIONES MATEMATICAS DESPUES DE UNA ASIGNACION O DECLARACION
 void Expresion():{} 
 {   
  
@@ -231,7 +233,7 @@ void Expresion():{}
 	  
 } 
 
-// Epsilon option ---> | {}
+// Epsilon  ---> | {}
 
 void Termino():{}
 {  
@@ -266,10 +268,10 @@ void FactorL():{}
 	(  DataType() | <IDENTIFICADOR> )
 }
 
-// Epsilon option ---> | {}
+// Epsilon ---> | {}
 
 
- // DATOS Y OPERADORES USADOS EN SENTENCIAS
+// DATOS Y OPERADORES USADOS EN SENTENCIAS
 void DataType():{} 
 { //Tipos de datos  
 	 
@@ -311,6 +313,7 @@ void Variable_dato():{}
 |<BOOLEANO>  
 } 
 
+// ---------------------------------------- TRATAMIENTO DE ERRORES --------------------------------------------------------
 JAVACODE
 void error_skipto(int puntocoma, int fincode, int finfile) {
   Token t;
@@ -334,23 +337,21 @@ void error_skipto(int puntocoma, int fincode, int finfile) {
 void error():  
 {
 	String errores = " "; 
-	int linea, colum; 
 	Token t;
 } 
 {  
 	t = <UNKNOW> 
 { 
-	linea = t.beginLine;
-	colum = t.endColumn; 
-	errores = "Simbolo: " + t.image + " no reconocido en la línea "+String.valueOf(linea)+" columna "+String.valueOf(colum)+"\r\n"; 
+	errores = "Simbolo: " + t.image + " no reconocido en la línea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n"; 
 	errormsg = errormsg+errores; 
+	sentencias_inco++;
 } 
 }
 
  
 void errorFinlinea():{
 	sentencias_inco++;
-	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
 }{
 	 
 	{} 
@@ -358,41 +359,26 @@ void errorFinlinea():{
 }
 void errorDOBLElinea():{
 	sentencias_inco++;
-	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+	System.out.println("Error sintáctico: Hay mas de un ';'  en la linea: "+token.beginLine+" Columna: "+(token.endColumn+1));
 }{
 	 
 	 <PuntoComa>  
-}
-/*
-void errorNOlinea():{
- 
-	System.out.println("Error sintáctico: Falta ';' En la linea: "+token.beginLine+" Columna: "+token.beginColumn);
-}{
-	 
-	 {} 
-	 
 }
 
-void errorDOBLElinea():{
- 
-	System.out.println("Error sintáctico: Hay mas de una ';' sobrante en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
-}{
-	 
-	 <PuntoComa>  
-} */
 
 //GRAMATICAS DE ERROR PARA LA ESTRUCTURA DEL CODIGO COATL
+
 void ErrorNoinicio():{
 	sentencias_inco++;
-	System.out.println("Error sintáctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
+	System.out.println("Error sintáctico: No hay palabra de arranque \"compilar_coatl\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).endColumn);
 }{
 	 
 	  {} 
 }
 
 void ErrorNoSepINICIO():{
+	System.out.println("Error sintáctico: No hay llave izquierda \"{\" en la linea: "+getToken(1).beginLine+" Columna: "+getToken(1).beginColumn);
 	sentencias_inco++;
-	System.out.println("Error sintáctico: No hay llave izquierda \"{\" en la linea: "+token.beginLine+" Columna: "+token.beginColumn);
 }{
 	 
 	  {} 
