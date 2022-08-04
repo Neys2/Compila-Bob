@@ -112,7 +112,7 @@ public class ParseException extends Exception {
       }
       expected.append(eol).append("    ");
     }
-    String retval = "Encontrado un \"";
+    String retval = "Se encontro un \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       if (i != 0) retval += " ";
@@ -129,9 +129,9 @@ public class ParseException extends Exception {
     retval += "\" en la linea " + currentToken.next.beginLine + ", columna " + currentToken.next.beginColumn;
     retval += "." + eol;
     if (expectedTokenSequences.length == 1) {
-      retval += "Se estaba esperando:" + eol + "    ";
+      retval += "Se esperaba un:" + eol + "    ";
     } else {
-      retval += "Se estaba esperando uno de estos:" + eol + "    ";
+      retval += "Se esperaba uno de estos:" + eol + "    ";
     }
     retval += expected.toString();
     return retval;
