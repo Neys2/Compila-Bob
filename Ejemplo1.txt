@@ -1,0 +1,14 @@
+compilar_coatl{
+ 
+	E_ n: 45;
+	#Hola esto es un comentario
+	repito hasta que(n,50):{
+		 
+		n:n+1;
+		muestra(n);
+		 
+	};
+	 
+}ejecutar_coatl
+
+ 
