@@ -7,12 +7,25 @@ options {
 javacc Compilabob.jj
 javac *.java
 java Compilabob < Ejemplo7.txt
+
+----------------------------------------------------------------  NOTA --------------------------------------------------------------------------
+---------------------------------------------------------- MÉTODOS POR AGREGAR --------------------------------------------------------------------
+
+Método de error "=" en lugar de ":" para las asignaciones.
+Resolver el break de estructuras por el método SKIP
+		Quizás funcione ampliando el rango de error hasta llaves de abertura y cierre junto a los punto y coma.
+
 */
 
 PARSER_BEGIN(Compilabob) 
 public class Compilabob {  
 	String errormsg="\n";
 	int sentencias_inco =0;  
+	//variebales para semantica-------------------------------
+    String Type="", Valor=""; //variables cache para capturar el par
+    String lugar = "";
+    java.util.ArrayList<ParOrd> ParOrdenado = new java.util.ArrayList<ParOrd>(); //Lista de IDs
+    //--------------------------------------------------------
 	public static void main(String args[])  { 
 		Compilabob compilador = new Compilabob(System.in); 
 		try { 
@@ -30,8 +43,23 @@ public class Compilabob {
 		}
 		System.out.println("\nFINAL PRINT\n" +"Sentencias incorrectas encontradas: "+compilador.sentencias_inco);
 		  
-	}    
+	}  
+	
+	
 }   
+
+//----------------------INICIO DE CLASE PARA ALMACENAMIENTO DE PARES ORDENADOS-------------------
+class ParOrd{
+
+    String tipo, id;
+
+    public ParOrd(String tipo, String id){
+        this.tipo = tipo;
+        this.id = id;        
+    }
+}
+//----------------------FIN DE CLASE PARA ALMACENAMIENTO DE PARES ORDENADOS-------------------
+
 PARSER_END(Compilabob)   
 
 SKIP :   

@@ -39,7 +39,7 @@ cadena : "No soy";
 	E_ n:45;
 	#inicio de la estructura ciclica "repito-mientras"
 
-	repito : {
+	repito  {
 		#código a ejecutar a ejecutar en caso de que la condición sea VERDAD
 		#se aumenta el contador n de forma manual.
 		n: n+1;

@@ -21,7 +21,7 @@ public class Compilabob implements CompilabobConstants {
 
         }
 
-//------------------------------- AN√?LISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
+//------------------------------- AN√ÅLISIS SINTACTICO - AREA DE GRAMATICAS ----------------------------------------------------
 
 // Gramatica inicial que contiene el cuerpo basico del codigo
   final public void Codigo() throws ParseException {
@@ -740,7 +740,7 @@ public class Compilabob implements CompilabobConstants {
         String errores = " ";
         Token t;
     t = jj_consume_token(UNKNOW);
-        errores = "Simbolo: " + t.image + " no reconocido en la l\u00c3\u00adnea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n";
+        errores = "Simbolo: " + t.image + " no reconocido en la l\u00ednea "+String.valueOf(t.beginLine)+" columna "+String.valueOf(t.endColumn)+"\r\n";
         errormsg = errormsg+errores;
         sentencias_inco++;
   }
